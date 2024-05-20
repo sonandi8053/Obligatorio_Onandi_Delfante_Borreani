@@ -5,8 +5,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         Scanner scanner = new Scanner(System.in);
-        Datos datosPrueba = new Datos();
-        int opcion = 0;
+        Opcion opciones = new Opcion();
+        int opcion;
         do {
             System.out.println("Elija una opcion:\n");
             System.out.println("1)Top 10 canciones en un pais dado");
@@ -15,26 +15,24 @@ public class Main {
             System.out.println("4)Cantidad de veces que aparece un artista especifico en un top 50 en una fecha dada");
             System.out.println("5)Cantidad de canciones con un tempo en un rango específico para un rango específico de fechas");
             System.out.println("6)Salir");
-            System.out.println("\n");
+            System.out.print("--> ");
             opcion = scanner.nextInt();
 
             switch (opcion){
                 case 1:
-                    datosPrueba.top10PaisDado("ZA","2024-05-13");
+                    opciones.opcion1();
                     break;
                 case 2:
-                    System.out.println("Juanito");
-                    datosPrueba.top5CancionesQueMasAparecenEnUnDiaDado("2023-11-07");
+                    opciones.opcion2();
                     break;
                 case 3:
-                    System.out.println("Pedrito");
+                    opciones.opcion3();
                     break;
                 case 4:
-                    int v=datosPrueba.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift","2023-11-07");
-                    System.out.println(v);
+                    opciones.opcion4();
                     break;
                 case 5:
-                    System.out.println("Adrian");
+                    opciones.opcion5();
                     break;
                 case 6:
                     System.exit(0);
