@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         Scanner scanner = new Scanner(System.in);
-
+        Datos datosPrueba = new Datos();
         int opcion = 0;
         do {
             System.out.println("Elija una opcion:\n");
@@ -20,12 +20,11 @@ public class Main {
 
             switch (opcion){
                 case 1:
-                    System.out.println("Pepito");
-                    Datos datosPrueba = new Datos();
                     datosPrueba.top10PaisDado("ZA","2024-05-13");
                     break;
                 case 2:
                     System.out.println("Juanito");
+                    datosPrueba.top5CancionesQueMasAparecenEnUnDiaDado("2023-11-07");
                     break;
                 case 3:
                     System.out.println("Pedrito");
