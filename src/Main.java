@@ -30,7 +30,8 @@ public class Main {
                     System.out.println("Pedrito");
                     break;
                 case 4:
-                    System.out.println("Javier");
+                    int v=datosPrueba.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift","2023-11-07");
+                    System.out.println(v);
                     break;
                 case 5:
                     System.out.println("Adrian");
