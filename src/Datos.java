@@ -12,6 +12,7 @@ public class Datos {
         Map<Integer, String> mapaTop = new HashMap<>();
         try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
             while ((linea = lector.readLine()) != null) {
+                linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
                 for (int i=0;i<partes.length;i++){
                     System.out.println(partes[i]);
