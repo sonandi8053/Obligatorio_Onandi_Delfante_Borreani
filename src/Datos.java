@@ -14,14 +14,11 @@ public class Datos {
             while ((linea = lector.readLine()) != null) {
                 linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
-                for (int i=0;i<partes.length;i++){
-                    System.out.println(partes[i]);
-                }
+
                 if (partes[6].equals(pais) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
                     String valor = partes[1];
                     mapaTop.put(clave, valor);
-                    System.out.println("Añadido al mapa: " + clave + " - " + valor); // Mensaje de depuración
                 }
             }
             List<Map.Entry<Integer, String>> listaTop = new ArrayList<>(mapaTop.entrySet());
