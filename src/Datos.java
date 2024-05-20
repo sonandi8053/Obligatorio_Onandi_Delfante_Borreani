@@ -1,62 +1,40 @@
-
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Objects;
+import java.util.*;
 
 public class Datos {
     private BufferedReader lector;
     private String linea;
     private String partes[] = null;
 
-    public void leerArchivo(String nombreArchivo){
-        try{
-            lector = new BufferedReader(new FileReader(nombreArchivo));
-            linea = lector.readLine();
-            while (linea!=null){
+    public void top10PaisDado(String pais, String fecha) {
+        Map<Integer, String> mapaTop = new HashMap<>();
+        try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
+            while ((linea = lector.readLine()) != null) {
                 partes = linea.split(",");
-            }
-            lector.close();
-            linea = null;
-            partes = null;
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null,e);
-        }
-
-    }
-    public void imprimirLinea(){
-        for (int i = 0; i< partes.length;i++){
-            System.out.println(partes[i]+" | ");
-        }
-    }
-
-    public void top10PaisDado(String pais,String fecha){
-        //DateTimeFormatter format = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
-        //LocalDate fechaConvertida = LocalDate.parse(fecha,format);
-
-        try{
-            lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
-            linea = lector.readLine();
-            while (linea!=null){
-                partes = linea.split(",");
-                if (Objects.equals(partes[6], pais) && Objects.equals(partes[7], fecha)){
-
+                for (int i=0;i<partes.length;i++){
+                    System.out.println(partes[i]);
+                }
+                if (partes[6].equals(pais) && partes[7].equals(fecha)) {
+                    int clave = Integer.valueOf(partes[3]);
+                    String valor = partes[1];
+                    mapaTop.put(clave, valor);
+                    System.out.println("Añadido al mapa: " + clave + " - " + valor); // Mensaje de depuración
                 }
             }
-            lector.close();
-            linea = null;
-            partes = null;
+            List<Map.Entry<Integer, String>> listaTop = new ArrayList<>(mapaTop.entrySet());
+            listaTop.sort(Comparator.comparingInt(Map.Entry::getKey));
+            List<Map.Entry<Integer, String>> primeros10 = listaTop.subList(0, Math.min(10, listaTop.size()));
+            for (Map.Entry<Integer, String> entry : primeros10) {
+                System.out.println(entry.getKey() + " - " + entry.getValue());
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null,e);
-        }
-
-
-
     }
 
 }
+
+

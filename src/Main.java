@@ -22,7 +22,7 @@ public class Main {
                 case 1:
                     System.out.println("Pepito");
                     Datos datosPrueba = new Datos();
-                    datosPrueba.leerArchivo("universal_top_spotify_songs.csv");
+                    datosPrueba.top10PaisDado("ZA","2024-05-13");
                     break;
                 case 2:
                     System.out.println("Juanito");
