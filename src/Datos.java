@@ -13,7 +13,8 @@ public class Datos {
 
     public void top10PaisDado(String pais, String fecha) {
         Map<Integer, String> mapaTop = new HashMap<>();
-        try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
                 linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
@@ -40,7 +41,8 @@ public class Datos {
         int apariciones = 1;
 
         Map<String, Integer> mapaCantidadApariciones = new HashMap<>();
-        try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
                 linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
@@ -70,7 +72,8 @@ public class Datos {
 
     public Integer cantidadDeVecesQueApareceUnArtistaEnElTop(String artista, String fecha) {
         int apariciones = 0;
-        try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
                 linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
@@ -90,7 +93,8 @@ public class Datos {
         LocalDate fechaFin = LocalDate.parse(fecha2);
 
         Map<String, Integer> mapaCantidadApariciones = new HashMap<>();
-        try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             String linea;
             String[] partes;
             while ((linea = lector.readLine()) != null) {
@@ -107,7 +111,9 @@ public class Datos {
                 }
                 try {
                     LocalDate fechaEstimada = LocalDate.parse(fechaString);
+
                     if (fechaEstimada.isAfter(fechaInicio) && fechaEstimada.isBefore(fechaFin)) {
+                        // Si una celda artista tiene una coma es que hay más que uno.
                         if (partes[2].contains(",")) {
                             String[] listaCantantes = partes[2].split(",");
                             for (String cantante : listaCantantes) {
@@ -125,7 +131,7 @@ public class Datos {
                     }
                 } catch (DateTimeParseException e) {
                     // Manejar el caso donde partes[7] no es una fecha válida
-                    //System.err.println("Error al analizar la fecha en la línea: " + linea);
+                    // No existe una fecha
                     continue;
                 }
             }
@@ -140,6 +146,14 @@ public class Datos {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+
+    public void cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(String fecha1, String fecha2){
+        // En un rango de fechas (fecha1 - fecha2)
+        LocalDate fechaInicio = LocalDate.parse(fecha1);
+        LocalDate fechaFin = LocalDate.parse(fecha2);
+
+
     }
 
 }

@@ -18,20 +18,25 @@ public class Main {
             System.out.print("--> ");
             opcion = scanner.nextInt();
 
+
             switch (opcion){
                 case 1:
-                    opciones.opcion1();
+                    datos.top10PaisDado("UY", "2024-03-01");
+                    //opciones.opcion1();
 
                     break;
                 case 2:
-                    opciones.opcion2();
+                    datos.top5CancionesQueMasAparecenEnUnDiaDado("2024-03-01");
+                    //opciones.opcion2();
                     break;
                 case 3:
                     //opciones.opcion3();
                     datos.top7ArtistasQueMasAparecen("2024-03-01","2024-03-07");
                     break;
                 case 4:
-                    opciones.opcion4();
+                    int v = datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Feid", "2024-04-07");
+                    System.out.println(v);
+                    //opciones.opcion4();
                     break;
                 case 5:
                     opciones.opcion5();
