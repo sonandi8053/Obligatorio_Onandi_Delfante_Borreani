@@ -1,6 +1,9 @@
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Datos {
@@ -80,6 +83,66 @@ public class Datos {
         }
         return apariciones;
     }
+
+    public void top7ArtistasQueMasAparecen(String fecha1, String fecha2) {
+        int apariciones = 1;
+        LocalDate fechaInicio = LocalDate.parse(fecha1);
+        LocalDate fechaFin = LocalDate.parse(fecha2);
+
+        Map<String, Integer> mapaCantidadApariciones = new HashMap<>();
+        try (BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"))) {
+            String linea;
+            String[] partes;
+            while ((linea = lector.readLine()) != null) {
+                linea = linea.replaceAll("\"", "");
+                partes = linea.split(",");
+                if (partes.length < 24) {
+                    // Verificar si hay suficientes elementos en la línea
+                    continue;
+                }
+                String fechaString = partes[7].trim();
+                if (fechaString.isEmpty()) {
+                    // Verificar si la fecha está vacía
+                    continue;
+                }
+                try {
+                    LocalDate fechaEstimada = LocalDate.parse(fechaString);
+                    if (fechaEstimada.isAfter(fechaInicio) && fechaEstimada.isBefore(fechaFin)) {
+                        if (partes[2].contains(",")) {
+                            String[] listaCantantes = partes[2].split(",");
+                            for (String cantante : listaCantantes) {
+                                cantante = cantante.replaceAll("\"", "").trim();
+                                if (!cantante.isEmpty()) {
+                                    mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getOrDefault(cantante, 0) + 1);
+                                }
+                            }
+                        } else {
+                            String cantante = partes[2].replaceAll("\"", "").trim();
+                            if (!cantante.isEmpty()) {
+                                mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getOrDefault(cantante, 0) + 1);
+                            }
+                        }
+                    }
+                } catch (DateTimeParseException e) {
+                    // Manejar el caso donde partes[7] no es una fecha válida
+                    //System.err.println("Error al analizar la fecha en la línea: " + linea);
+                    continue;
+                }
+            }
+
+            List<Map.Entry<String, Integer>> listaTop = new ArrayList<>(mapaCantidadApariciones.entrySet());
+            listaTop.sort(Comparator.comparingInt(Map.Entry::getValue));
+            Collections.reverse(listaTop);
+            List<Map.Entry<String, Integer>> primeros7 = listaTop.subList(0, Math.min(7, listaTop.size()));
+            for (Map.Entry<String, Integer> entry : primeros7) {
+                System.out.println(entry.getValue() + " - " + entry.getKey());
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
 }
+
 
 

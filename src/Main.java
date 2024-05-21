@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Datos datos = new Datos();
         Scanner scanner = new Scanner(System.in);
         Opcion opciones = new Opcion();
         int opcion;
@@ -21,12 +21,14 @@ public class Main {
             switch (opcion){
                 case 1:
                     opciones.opcion1();
+
                     break;
                 case 2:
                     opciones.opcion2();
                     break;
                 case 3:
-                    opciones.opcion3();
+                    //opciones.opcion3();
+                    datos.top7ArtistasQueMasAparecen("2024-03-01","2024-03-07");
                     break;
                 case 4:
                     opciones.opcion4();
