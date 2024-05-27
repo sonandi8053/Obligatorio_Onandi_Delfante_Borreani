@@ -6,13 +6,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+import uy.edu.um.prog2.tad.hash.*;
+
+
 public class Datos {
     private BufferedReader lector;
     private String linea;
     private String partes[] = null;
 
     public void top10PaisDado(String pais, String fecha) {
-        Map<Integer, String> mapaTop = new HashMap<>();
+        MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(4);
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
@@ -23,8 +26,8 @@ public class Datos {
                     String valor = partes[1];
                     mapaTop.put(clave, valor);
                 }
-            }
-            List<Map.Entry<Integer, String>> listaTop = new ArrayList<>(mapaTop.entrySet());
+            }/////////////////////////////////////
+            LinkedList<Map.Entry<Integer, String>> listaTop = new LinkedList<>(mapaTop.entrySet());
             listaTop.sort(Comparator.comparingInt(Map.Entry::getKey));
             List<Map.Entry<Integer, String>> primeros10 = listaTop.subList(0, Math.min(10, listaTop.size()));
             for (Map.Entry<Integer, String> entry : primeros10) {
@@ -40,7 +43,7 @@ public class Datos {
         String cancion = null;
         int apariciones = 1;
 
-        Map<String, Integer> mapaCantidadApariciones = new HashMap<>();
+        MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
@@ -48,7 +51,7 @@ public class Datos {
                 partes = linea.split(",");
                 if (partes[7].equals(fecha)) {
                     cancion = partes[1];
-                    if (mapaCantidadApariciones.containsKey(cancion)) {
+                    if (mapaCantidadApariciones.contains(cancion)) {
                         apariciones = mapaCantidadApariciones.get(cancion);
                         mapaCantidadApariciones.remove(cancion);
                         mapaCantidadApariciones.put(cancion, apariciones + 1);
