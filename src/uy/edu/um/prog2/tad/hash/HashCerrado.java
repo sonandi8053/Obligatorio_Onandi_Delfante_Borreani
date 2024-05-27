@@ -48,6 +48,31 @@ public class HashCerrado<K extends Comparable<K>,V> implements MyHashInterface<K
 
     }
 
+
+    private NodoHash<K, V> get(K key) {
+        int pos = HashFunction(key);
+        while (tablahash[pos] != null) {
+            if (tablahash[pos].getKey() == key) {
+            return tablahash[pos];
+            } else {
+                if(pos == capacity-1){
+                    return null;
+                }
+                pos = pos + 1;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public V getValue(K key) {
+        NodoHash<K, V> nodo = get(key);
+        if(nodo != null) {
+            return nodo.getValue();
+        }
+        return null;
+    }
+
     @Override
     public boolean contains(K key) {
         int pos = HashFunction(key);
@@ -100,10 +125,5 @@ public class HashCerrado<K extends Comparable<K>,V> implements MyHashInterface<K
 
     public int size(){
         return this.size;
-    }
-
-    @Override
-    public int entrySet() {
-        return 0;
     }
 }
