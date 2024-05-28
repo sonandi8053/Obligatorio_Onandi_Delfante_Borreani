@@ -1,7 +1,9 @@
 package uy.edu.um.prog2.tad.hash;
 
+import uy.edu.um.prog2.tad.linkedlist.*;
+
 import java.lang.Math;
-public class HashCerrado<K extends Comparable<K>,V> implements MyHashInterface<K,V> {
+public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> implements MyHashInterface<K, V> {
     private NodoHash[] tablahash;
     private int size;
     private double LoadFactor =0.79;
@@ -49,7 +51,7 @@ public class HashCerrado<K extends Comparable<K>,V> implements MyHashInterface<K
     }
 
 
-    private NodoHash<K, V> get(K key) {
+    private NodoHash<K, V> getNodo(K key) {
         int pos = HashFunction(key);
         while (tablahash[pos] != null) {
             if (tablahash[pos].getKey() == key) {
@@ -66,7 +68,7 @@ public class HashCerrado<K extends Comparable<K>,V> implements MyHashInterface<K
 
     @Override
     public V getValue(K key) {
-        NodoHash<K, V> nodo = get(key);
+        NodoHash<K, V> nodo = getNodo(key);
         if(nodo != null) {
             return nodo.getValue();
         }
@@ -125,5 +127,16 @@ public class HashCerrado<K extends Comparable<K>,V> implements MyHashInterface<K
 
     public int size(){
         return this.size;
+    }
+
+    public Lista<NodoHash<K, V>> getNodesAsList(){
+        Lista<NodoHash<K, V>> temp = new ListaEnlazada<>();
+        for (int i = 0; i<this.size; i++){
+            if (this.tablahash[i] != null){
+                temp.add(this.tablahash[i]);
+            }
+        }
+        return temp;
+
     }
 }

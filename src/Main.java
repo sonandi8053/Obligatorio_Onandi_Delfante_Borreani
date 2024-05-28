@@ -26,16 +26,16 @@ public class Main {
 
                     break;
                 case 2:
-                    datos.top5CancionesQueMasAparecenEnUnDiaDado("2024-03-01");
+                    //datos.top5CancionesQueMasAparecenEnUnDiaDado("2024-03-01");
                     //opciones.opcion2();
                     break;
                 case 3:
                     //opciones.opcion3();
-                    datos.top7ArtistasQueMasAparecen("2024-03-01","2024-03-07");
+                    //datos.top7ArtistasQueMasAparecen("2024-03-01","2024-03-07");
                     break;
                 case 4:
-                    int v = datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Feid", "2024-04-07");
-                    System.out.println(v);
+                    //int v = datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Feid", "2024-04-07");
+                    //System.out.println(v);
                     //opciones.opcion4();
                     break;
                 case 5:

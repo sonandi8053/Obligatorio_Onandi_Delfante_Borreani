@@ -4,9 +4,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
 
 import uy.edu.um.prog2.tad.hash.*;
+import uy.edu.um.prog2.tad.linkedlist.Lista;
+import uy.edu.um.prog2.tad.linkedlist.ListaEnlazada;
 
 
 public class Datos {
@@ -27,18 +30,18 @@ public class Datos {
                     mapaTop.put(clave, valor);
                 }
             }/////////////////////////////////////
-            LinkedList<Map.Entry<Integer, String>> listaTop = new LinkedList<>(mapaTop.entrySet());
-            listaTop.sort(Comparator.comparingInt(Map.Entry::getKey));
-            List<Map.Entry<Integer, String>> primeros10 = listaTop.subList(0, Math.min(10, listaTop.size()));
-            for (Map.Entry<Integer, String> entry : primeros10) {
-                System.out.println(entry.getKey() + " - " + entry.getValue());
+            Lista<NodoHash<Integer, String>> listaTop = mapaTop.getNodesAsList(); // Devuelve una linked list ordenada segun la key
+            listaTop.sort();
+            listaTop.limitarElementos(10);
+            for (int i = 0; i<listaTop.size(); i++) {
+                System.out.println(listaTop.get(i).getKey() + " - " + listaTop.get(i).getValue());
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-
+    /**
     public void top5CancionesQueMasAparecenEnUnDiaDado(String fecha) {
         String cancion = null;
         int apariciones = 1;
@@ -52,7 +55,7 @@ public class Datos {
                 if (partes[7].equals(fecha)) {
                     cancion = partes[1];
                     if (mapaCantidadApariciones.contains(cancion)) {
-                        apariciones = mapaCantidadApariciones.get(cancion);
+                        apariciones = mapaCantidadApariciones.getValue(cancion);
                         mapaCantidadApariciones.remove(cancion);
                         mapaCantidadApariciones.put(cancion, apariciones + 1);
                     } else {
@@ -60,10 +63,11 @@ public class Datos {
                     }
                 }
             }
-            List<Map.Entry<String, Integer>> listaTop = new ArrayList<>(mapaCantidadApariciones.entrySet());
+
+            Lista<Map.Entry<String, Integer>> listaTop = new ListaEnlazada<>(mapaCantidadApariciones.entrySet());
             listaTop.sort(Comparator.comparingInt(Map.Entry::getValue));
             Collections.reverse(listaTop);
-            List<Map.Entry<String, Integer>> primeros5 = listaTop.subList(0, Math.min(10, listaTop.size()));
+            Lista<Map.Entry<String, Integer>> primeros5 = listaTop.subList(0, Math.min(10, listaTop.size()));
             for (Map.Entry<String, Integer> entry : primeros5) {
                 System.out.println(entry.getValue() + " - " + entry.getKey());
             }
@@ -72,7 +76,7 @@ public class Datos {
         }
 
     }
-
+    
     public Integer cantidadDeVecesQueApareceUnArtistaEnElTop(String artista, String fecha) {
         int apariciones = 0;
         try {
@@ -95,7 +99,7 @@ public class Datos {
         LocalDate fechaInicio = LocalDate.parse(fecha1);
         LocalDate fechaFin = LocalDate.parse(fecha2);
 
-        Map<String, Integer> mapaCantidadApariciones = new HashMap<>();
+        MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             String linea;
@@ -139,10 +143,10 @@ public class Datos {
                 }
             }
 
-            List<Map.Entry<String, Integer>> listaTop = new ArrayList<>(mapaCantidadApariciones.entrySet());
+            Lista<Map.Entry<String, Integer>> listaTop = new ListaEnlazada<>(mapaCantidadApariciones.entrySet());
             listaTop.sort(Comparator.comparingInt(Map.Entry::getValue));
             Collections.reverse(listaTop);
-            List<Map.Entry<String, Integer>> primeros7 = listaTop.subList(0, Math.min(7, listaTop.size()));
+            Lista<Map.Entry<String, Integer>> primeros7 = listaTop.subList(0, Math.min(7, listaTop.size()));
             for (Map.Entry<String, Integer> entry : primeros7) {
                 System.out.println(entry.getValue() + " - " + entry.getKey());
             }
@@ -158,7 +162,7 @@ public class Datos {
 
 
     }
-
+    **/
 }
 
 

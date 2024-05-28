@@ -18,4 +18,6 @@ public interface Lista<T extends Comparable<T>> {
     public boolean isInside(T value);
 
     void sort();
+
+    public void limitarElementos(int cantidad);
 }

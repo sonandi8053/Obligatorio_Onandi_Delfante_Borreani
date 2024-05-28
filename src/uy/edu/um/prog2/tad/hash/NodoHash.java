@@ -2,7 +2,7 @@ package uy.edu.um.prog2.tad.hash;
 
 import java.util.Objects;
 
-public class NodoHash <K,V>{
+public class NodoHash <K extends Comparable<K>,V extends Comparable<V>> implements Comparable<NodoHash<K, V>> {
     private K key;
     private V value;
 
@@ -42,5 +42,11 @@ public class NodoHash <K,V>{
     @Override
     public int hashCode() {
         return Objects.hash(key);
+    }
+
+    /** Compara las keys del nodo **/
+    @Override
+    public int compareTo(NodoHash<K, V> o) {
+        return this.key.compareTo(o.getKey());
     }
 }

@@ -87,7 +87,7 @@ public class Opcion {
             System.out.println("Anio Invalido");
         }
         System.out.println(fecha);
-        datosPrueba.top5CancionesQueMasAparecenEnUnDiaDado("2023-11-07");
+        //datosPrueba.top5CancionesQueMasAparecenEnUnDiaDado("2023-11-07");
     }
 
     public void opcion3(){
@@ -95,8 +95,8 @@ public class Opcion {
     }
 
     public void opcion4(){
-        int v = datosPrueba.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift","2023-11-07");
-        System.out.println(v);
+        //int v = datosPrueba.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift","2023-11-07");
+        //System.out.println(v);
     }
 
     public void opcion5(){

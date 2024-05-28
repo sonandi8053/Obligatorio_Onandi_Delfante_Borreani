@@ -1,4 +1,7 @@
 package uy.edu.um.prog2.tad.linkedlist;
+
+import java.util.LinkedList;
+
 // El compilador de java importa automaticamente java.lang
 // que es donde se encuentra la interfaz Comparable
 public class ListaEnlazada<T extends Comparable<T>>
@@ -168,6 +171,8 @@ public class ListaEnlazada<T extends Comparable<T>>
     /**
      * Ordena la lista de forma ascendente utilizando el
      * algoritmo bubble sort y compareTo de comparable
+     *
+     * @return
      */
     @Override
     public void sort(){
@@ -279,6 +284,17 @@ public class ListaEnlazada<T extends Comparable<T>>
         if (sig != null){
             System.out.println(sig.getValue());
         }
+    }
+
+    public void limitarElementos(int cantidad){
+        if (this.size() <= cantidad){
+            return;
+        }
+        ListaEnlazada<T> temp = new ListaEnlazada<>();
+        for (int i = 0; i<cantidad; i++){
+            temp.add(this.get(i));
+        }
+        this.primero = temp.primero;
     }
 
 }
