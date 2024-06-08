@@ -18,7 +18,7 @@ public class Datos {
     private String partes[] = null;
 
     public void top10PaisDado(String pais, String fecha) {
-        MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(4);
+        MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(50);
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
