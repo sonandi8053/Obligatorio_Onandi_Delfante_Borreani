@@ -132,7 +132,11 @@ public class Datos {
                         } else {
                             String cantante = partes[2].replaceAll("\"", "").trim();
                             if (!cantante.isEmpty()) {
+                                if (mapaCantidadApariciones.getValue(cantante) == null) {
+                                    mapaCantidadApariciones.put(cantante, 1);
+                                } else {
                                 mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getValue(cantante) + 1);
+                                }   
                             }
                         }
                     }

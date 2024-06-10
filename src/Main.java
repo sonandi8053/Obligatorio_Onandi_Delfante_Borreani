@@ -31,7 +31,7 @@ public class Main {
                     break;
                 case 3:
                     //opciones.opcion3();
-                    //datos.top7ArtistasQueMasAparecen("2024-03-01","2024-03-07");
+                    datos.top7ArtistasQueMasAparecen("2024-03-01","2024-03-07");
                     break;
                 case 4:
                     //int v = datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Feid", "2024-04-07");
