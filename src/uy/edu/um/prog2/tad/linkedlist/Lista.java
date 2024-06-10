@@ -3,9 +3,13 @@ package uy.edu.um.prog2.tad.linkedlist;
 public interface Lista<T extends Comparable<T>> {
     public void add(T value);
 
+    public void addFirst(T val);
+
     public void remove(int position);
 
     public T get(int position);
+
+    public Nodo<T> getNode(int position);
 
     public void printList();
 
@@ -17,7 +21,9 @@ public interface Lista<T extends Comparable<T>> {
 
     public boolean isInside(T value);
 
-    void sort();
+    public void sort();
 
     public void limitarElementos(int cantidad);
+
+    public void reverse();
 }

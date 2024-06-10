@@ -45,7 +45,7 @@ public class ListaEnlazada<T extends Comparable<T>>
      * Devuelve el nodo de la posicion dada
      * position 0 devuelve primero
      */
-    protected Nodo<T> getNode(int position) {
+    public Nodo<T> getNode(int position) {
         if (position >= length){
             throw new IndexOutOfBoundsException();
         }
@@ -129,16 +129,20 @@ public class ListaEnlazada<T extends Comparable<T>>
         }
         return false;
     }
-
     /**
      * Agrega un elemento en la primera posicion de la lista
      */
+    @Override
     public void addFirst(T val){
-
-        Nodo<T> temp = new Nodo<T>(val);
-        temp.setSiguiente(primero);
-        primero = temp;
-        length++;
+        if (primero == null) {
+            primero = new Nodo<>(val, 0);
+        }
+        else {
+            Nodo<T> temp = new Nodo<T>(val);
+            temp.setSiguiente(primero);
+            primero = temp;
+            length++;
+        }
     }
 
     /**
@@ -297,4 +301,13 @@ public class ListaEnlazada<T extends Comparable<T>>
         this.primero = temp.primero;
     }
 
+
+    @Override
+    public void reverse(){
+        Lista<T> listaNueva = new ListaEnlazada<>();
+        for (int i = 0; i<this.size(); i++){
+            listaNueva.addFirst(this.get(i));
+        }
+        this.primero = listaNueva.getNode(0);
+    }
 }
