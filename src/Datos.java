@@ -29,7 +29,7 @@ public class Datos {
                     String valor = partes[1];
                     mapaTop.put(clave, valor);
                 }
-            }/////////////////////////////////////
+            }
             Lista<NodoHash<Integer, String>> listaTop = mapaTop.getNodesAsList(); // Devuelve una linked list ordenada segun la key
             listaTop.sort();
             listaTop.limitarElementos(10);
@@ -126,13 +126,17 @@ public class Datos {
                             for (String cantante : listaCantantes) {
                                 cantante = cantante.replaceAll("\"", "").trim();
                                 if (!cantante.isEmpty()) {
-                                    mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getValue(cantante) + 1);
+                                    if (!mapaCantidadApariciones.contains(cantante)) {
+                                        mapaCantidadApariciones.put(cantante, 1);
+                                    } else {
+                                        mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getValue(cantante) + 1);
+                                    }
                                 }
                             }
                         } else {
                             String cantante = partes[2].replaceAll("\"", "").trim();
                             if (!cantante.isEmpty()) {
-                                if (mapaCantidadApariciones.getValue(cantante) == null) {
+                                if (!mapaCantidadApariciones.contains(cantante)) {
                                     mapaCantidadApariciones.put(cantante, 1);
                                 } else {
                                 mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getValue(cantante) + 1);
@@ -147,11 +151,14 @@ public class Datos {
                 }
             }
 
-            MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(50);
-            Lista<NodoHash<Integer, String>> listaTop7 = mapaTop.getNodesAsList(); // Devuelve una linked list ordenada segun la key (EntrySet)
+            Lista<NodoHash<Integer, String>> listaTop7 = mapaCantidadApariciones.getNodesAsSwapedList(); // Devuelve una linked list ordenada segun la key (EntrySet)
+            // Problema en el sort, sortea(compara) los nodos por el String y no por los Interger
             listaTop7.sort();
+            listaTop7.printList();
             listaTop7.limitarElementos(7);
+            listaTop7.printList();
             listaTop7.reverse();
+            listaTop7.printList();
             for (int i = 0; i<listaTop7.size(); i++) {
                 System.out.println(listaTop7.get(i).getKey() + " - " + listaTop7.get(i).getValue());
             }

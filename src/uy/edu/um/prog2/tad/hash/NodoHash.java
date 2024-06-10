@@ -45,8 +45,12 @@ public class NodoHash <K extends Comparable<K>,V extends Comparable<V>> implemen
     }
 
     /** Compara las keys del nodo **/
-    @Override
+    @Override // No se pudo hacer que compare por valor, se usa la funcion de swap
     public int compareTo(NodoHash<K, V> o) {
         return this.key.compareTo(o.getKey());
+    }
+
+    public NodoHash<V, K> swap(){
+        return new NodoHash<>(this.getValue(), this.getKey());
     }
 }

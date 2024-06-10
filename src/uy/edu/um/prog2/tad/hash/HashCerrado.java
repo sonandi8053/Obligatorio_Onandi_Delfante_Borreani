@@ -140,6 +140,15 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
             }
         }
         return temp;
+    }
 
+    public Lista<NodoHash<V, K>> getNodesAsSwapedList(){
+        Lista<NodoHash<V, K>> temp = new ListaEnlazada<>();
+        for (int i = 0; i<this.size; i++){
+            if (this.tablahash[i] != null){
+                temp.add(this.tablahash[i].swap());
+            }
+        }
+        return temp;
     }
 }

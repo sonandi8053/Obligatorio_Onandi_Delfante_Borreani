@@ -180,6 +180,7 @@ public class ListaEnlazada<T extends Comparable<T>>
      */
     @Override
     public void sort(){
+        if (size() == 0){return;}
         Nodo<T> temp;
         Nodo<T> temp2;
         for (int i = 0; i< this.size(); i++){
@@ -304,6 +305,9 @@ public class ListaEnlazada<T extends Comparable<T>>
 
     @Override
     public void reverse(){
+        if (primero == null){
+            return;
+        }
         Lista<T> listaNueva = new ListaEnlazada<>();
         for (int i = 0; i<this.size(); i++){
             listaNueva.addFirst(this.get(i));

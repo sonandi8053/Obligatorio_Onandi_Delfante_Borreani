@@ -14,4 +14,5 @@ public interface MyHashInterface <K extends Comparable<K>,V extends Comparable<V
     public int capacity();
     public int size();
     public Lista<NodoHash<K, V>> getNodesAsList();
+    public Lista<NodoHash<V, K>> getNodesAsSwapedList();
 }
