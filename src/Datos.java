@@ -93,7 +93,7 @@ public class Datos {
         }
         return apariciones;
     }
-
+    **/
     public void top7ArtistasQueMasAparecen(String fecha1, String fecha2) {
         int apariciones = 1;
         LocalDate fechaInicio = LocalDate.parse(fecha1);
@@ -126,13 +126,13 @@ public class Datos {
                             for (String cantante : listaCantantes) {
                                 cantante = cantante.replaceAll("\"", "").trim();
                                 if (!cantante.isEmpty()) {
-                                    mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getOrDefault(cantante, 0) + 1);
+                                    mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getValue(cantante) + 1);
                                 }
                             }
                         } else {
                             String cantante = partes[2].replaceAll("\"", "").trim();
                             if (!cantante.isEmpty()) {
-                                mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getOrDefault(cantante, 0) + 1);
+                                mapaCantidadApariciones.put(cantante, mapaCantidadApariciones.getValue(cantante) + 1);
                             }
                         }
                     }
@@ -143,18 +143,21 @@ public class Datos {
                 }
             }
 
-            Lista<Map.Entry<String, Integer>> listaTop = new ListaEnlazada<>(mapaCantidadApariciones.entrySet());
-            listaTop.sort(Comparator.comparingInt(Map.Entry::getValue));
-            Collections.reverse(listaTop);
-            Lista<Map.Entry<String, Integer>> primeros7 = listaTop.subList(0, Math.min(7, listaTop.size()));
-            for (Map.Entry<String, Integer> entry : primeros7) {
-                System.out.println(entry.getValue() + " - " + entry.getKey());
+            MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(50);
+            Lista<NodoHash<Integer, String>> listaTop7 = mapaTop.getNodesAsList(); // Devuelve una linked list ordenada segun la key (EntrySet)
+            listaTop7.sort();
+            listaTop7.limitarElementos(7);
+            listaTop7.reverse();
+            for (int i = 0; i<listaTop7.size(); i++) {
+                System.out.println(listaTop7.get(i).getKey() + " - " + listaTop7.get(i).getValue());
             }
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
 
+    /**
     public void cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(String fecha1, String fecha2){
         // En un rango de fechas (fecha1 - fecha2)
         LocalDate fechaInicio = LocalDate.parse(fecha1);
