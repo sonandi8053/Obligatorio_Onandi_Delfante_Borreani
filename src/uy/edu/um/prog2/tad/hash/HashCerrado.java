@@ -38,6 +38,7 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
             while (tablahash[pos] != null) {
                 if (tablahash[pos].getKey().equals(key)) {
                     tablahash[pos] = nodoAgregado;
+                    return;
                 }
                 if(pos == capacity-1){
                     pos=0;
@@ -57,7 +58,7 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
     private NodoHash<K, V> getNodo(K key) {
         int pos = HashFunction(key);
         while (tablahash[pos] != null) {
-            if (tablahash[pos].getKey() == key) {
+            if (tablahash[pos].getKey().equals(key)) {
             return tablahash[pos];
             } else {
                 if(pos == capacity-1){
