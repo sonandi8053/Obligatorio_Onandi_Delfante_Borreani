@@ -23,6 +23,7 @@ public class Datos {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
                 linea = linea.replaceAll("\"", "");
+                // Problema con el split, al separar una cancion con varios artistas se corre lo demas, tipo artistas son parte[2,3] si son 2
                 partes = linea.split(",");
                 if (partes[6].equals(pais) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
