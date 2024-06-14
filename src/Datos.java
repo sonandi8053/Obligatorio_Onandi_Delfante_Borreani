@@ -41,7 +41,7 @@ public class Datos {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    /**
+
     public void top5CancionesQueMasAparecenEnUnDiaDado(String fecha) {
         String cancion = null;
         int apariciones = 1;
@@ -56,7 +56,6 @@ public class Datos {
                     cancion = partes[1];
                     if (mapaCantidadApariciones.contains(cancion)) {
                         apariciones = mapaCantidadApariciones.getValue(cancion);
-                        mapaCantidadApariciones.remove(cancion);
                         mapaCantidadApariciones.put(cancion, apariciones + 1);
                     } else {
                         mapaCantidadApariciones.put(cancion, apariciones);
@@ -64,12 +63,12 @@ public class Datos {
                 }
             }
 
-            Lista<Map.Entry<String, Integer>> listaTop = new ListaEnlazada<>(mapaCantidadApariciones.entrySet());
-            listaTop.sort(Comparator.comparingInt(Map.Entry::getValue));
-            Collections.reverse(listaTop);
-            Lista<Map.Entry<String, Integer>> primeros5 = listaTop.subList(0, Math.min(10, listaTop.size()));
-            for (Map.Entry<String, Integer> entry : primeros5) {
-                System.out.println(entry.getValue() + " - " + entry.getKey());
+            Lista<NodoHash<Integer, String>> listaTop = mapaCantidadApariciones.getNodesAsSwapedList();
+            listaTop.sort();
+            listaTop.reverse();
+            listaTop.limitarElementos(5);
+            for (int i = 0; i < listaTop.size(); i++) {
+                System.out.println(listaTop.getNode(i).getValue().getKey() + " - " + listaTop.getNode(i).getValue().getValue());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -93,7 +92,7 @@ public class Datos {
         }
         return apariciones;
     }
-    **/
+
     public void top7ArtistasQueMasAparecen(String fecha1, String fecha2) {
         int apariciones = 1;
         LocalDate fechaInicio = LocalDate.parse(fecha1);
