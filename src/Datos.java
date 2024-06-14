@@ -153,15 +153,11 @@ public class Datos {
             Lista<NodoHash<Integer, String>> listaTop7 = mapaCantidadApariciones.getNodesAsSwapedList(); // Devuelve una linked list ordenada segun la key (EntrySet)
             // Problema en el sort, sortea(compara) los nodos por el String y no por los Interger
             listaTop7.sort();
-            listaTop7.printList();
-            listaTop7.limitarElementos(7);
-            listaTop7.printList();
             listaTop7.reverse();
-            listaTop7.printList();
+            listaTop7.limitarElementos(7);
             for (int i = 0; i<listaTop7.size(); i++) {
                 System.out.println(listaTop7.get(i).getKey() + " - " + listaTop7.get(i).getValue());
             }
-
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }

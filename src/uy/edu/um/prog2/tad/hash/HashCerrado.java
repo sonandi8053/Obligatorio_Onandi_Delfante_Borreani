@@ -135,7 +135,7 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
 
     public Lista<NodoHash<K, V>> getNodesAsList(){
         Lista<NodoHash<K, V>> temp = new ListaEnlazada<>();
-        for (int i = 0; i<this.size; i++){
+        for (int i = 0; i<this.capacity; i++){
             if (this.tablahash[i] != null){
                 temp.add(this.tablahash[i]);
             }
@@ -145,7 +145,7 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
 
     public Lista<NodoHash<V, K>> getNodesAsSwapedList(){
         Lista<NodoHash<V, K>> temp = new ListaEnlazada<>();
-        for (int i = 0; i<this.size; i++){
+        for (int i = 0; i<this.capacity; i++){
             if (this.tablahash[i] != null){
                 temp.add(this.tablahash[i].swap());
             }

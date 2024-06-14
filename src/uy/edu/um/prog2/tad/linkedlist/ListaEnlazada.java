@@ -300,6 +300,7 @@ public class ListaEnlazada<T extends Comparable<T>>
             temp.add(this.get(i));
         }
         this.primero = temp.primero;
+        this.length = cantidad;
     }
 
 
