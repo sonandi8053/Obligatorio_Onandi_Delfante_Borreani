@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -7,6 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Collections;
 import java.util.Comparator;
 
+import exceptions.FechaInvalida;
 import uy.edu.um.prog2.tad.hash.*;
 import uy.edu.um.prog2.tad.linkedlist.Lista;
 import uy.edu.um.prog2.tad.linkedlist.ListaEnlazada;
@@ -22,9 +24,9 @@ public class Datos {
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
-                linea = linea.replaceAll("\"", "");
                 // Problema con el split, al separar una cancion con varios artistas se corre lo demas, tipo artistas son parte[2,3] si son 2
                 partes = linea.split(",");
+                this.eliminarComillasDeListaVacia(partes);
                 if (partes[6].equals(pais) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
                     String valor = partes[1];
@@ -51,8 +53,8 @@ public class Datos {
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
-                linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
+                this.eliminarComillasDeListaVacia(partes);
                 if (partes[7].equals(fecha)) {
                     cancion = partes[1];
                     if (mapaCantidadApariciones.contains(cancion)) {
@@ -82,8 +84,8 @@ public class Datos {
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
-                linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
+                this.eliminarComillasDeListaVacia(partes);
                 if (partes[2].equals(artista) && partes[7].equals(fecha)){
                     apariciones+=1;
                 }
@@ -95,6 +97,7 @@ public class Datos {
     }
 
     public void top7ArtistasQueMasAparecen(String fecha1, String fecha2) {
+        // Top 7 artistas que mas aparecen en el top 50 en un dia dado
         int apariciones = 1;
         LocalDate fechaInicio = LocalDate.parse(fecha1);
         LocalDate fechaFin = LocalDate.parse(fecha2);
@@ -105,8 +108,8 @@ public class Datos {
             String linea;
             String[] partes;
             while ((linea = lector.readLine()) != null) {
-                linea = linea.replaceAll("\"", "");
                 partes = linea.split(",");
+                this.eliminarComillasDeListaVacia(partes);
                 if (partes.length < 24) {
                     // Verificar si hay suficientes elementos en la línea
                     continue;
@@ -164,15 +167,55 @@ public class Datos {
         }
     }
 
-    /**
-    public void cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(String fecha1, String fecha2){
+    public void cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(String  fecha1, String fecha2, float tempo) throws FechaInvalida {
+        // TEMPO ES LA COLUMNA 23 DE 24 COLUMNAS
         // En un rango de fechas (fecha1 - fecha2)
         LocalDate fechaInicio = LocalDate.parse(fecha1);
         LocalDate fechaFin = LocalDate.parse(fecha2);
+        int num = 0;
 
+        if (fechaInicio.isAfter(fechaFin)){
+            throw new FechaInvalida();
+        }
+
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
+            String linea;
+
+            while((linea = lector.readLine()) != null){
+                num ++;
+                partes = linea.split(",");
+                this.eliminarComillasDeListaVacia(partes);
+                System.out.println(partes[0]);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (lector != null){
+                try {
+                    lector.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println(num);
 
     }
-    **/
+
+    /**
+     * Elimina las comillas a una lista, menos a los elementos que esten vacios
+     */
+    private void eliminarComillasDeListaVacia(String[] listaComillas){
+        for (int i = 0; i<listaComillas.length; i++){
+            listaComillas[i] = listaComillas[i].replace("\"", "");
+
+            if (listaComillas[i].isEmpty() || listaComillas[i].isBlank()){
+                listaComillas[i] = "\"\"";
+            }
+        }
+    }
 }
 
 

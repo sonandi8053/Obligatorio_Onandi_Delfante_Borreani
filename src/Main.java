@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         Datos datos = new Datos();
         Scanner scanner = new Scanner(System.in);
         Opcion opciones = new Opcion();
@@ -39,6 +39,7 @@ public class Main {
                     break;
                 case 5:
                     opciones.opcion5();
+                    datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas("2024-03-17","2024-05-27",120.3F);
                     break;
                 case 6:
                     System.exit(0);
