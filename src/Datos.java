@@ -183,10 +183,23 @@ public class Datos {
             String linea;
 
             while((linea = lector.readLine()) != null){
-                num ++;
                 partes = linea.split(",");
                 this.eliminarComillasDeListaVacia(partes);
-                System.out.println(partes[0]);
+                if (partes.length >= 23){
+                    try{
+                        String tempoString = partes[23];
+                        float tempoPartes = Float.parseFloat(tempoString);
+                        if (tempoPartes == tempo){
+                            num ++;
+                        }
+                    }
+                    catch (NumberFormatException | ArrayIndexOutOfBoundsException e){
+                        continue;
+                    }
+                }
+
+
+
             }
 
         } catch (IOException e) {
@@ -200,7 +213,7 @@ public class Datos {
                 }
             }
         }
-        System.out.println(num);
+        System.out.printf("Entre la fecha %s y %s con el tempo %s hay %s canciones \n", fechaInicio, fechaFin, tempo, num);
 
     }
 

@@ -31,7 +31,7 @@ public class Main {
                     break;
                 case 3:
                     //opciones.opcion3();
-                    datos.top7ArtistasQueMasAparecen("2024-04-07","2024-04-08");
+                    datos.top7ArtistasQueMasAparecen("2024-03-18","2024-05-13"); // Valores limites "2023-10-18","2024-05-13"
                     break;
                 case 4:
                     System.out.println(datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift", "2024-04-07"));
@@ -39,7 +39,7 @@ public class Main {
                     break;
                 case 5:
                     opciones.opcion5();
-                    datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas("2024-03-17","2024-05-27",120.3F);
+                    datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas("2023-03-17","2024-05-27",138.003F);
                     break;
                 case 6:
                     System.exit(0);
