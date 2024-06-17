@@ -7,11 +7,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EmptyStackException;
 
+import Exceptions.EmptyQueueException;
 import exceptions.FechaInvalida;
 import uy.edu.um.prog2.tad.hash.*;
 import uy.edu.um.prog2.tad.linkedlist.Lista;
 import uy.edu.um.prog2.tad.linkedlist.ListaEnlazada;
+import uy.edu.um.prog2.tad.queue.MyPriorityQueue;
+import uy.edu.um.prog2.tad.queue.MyPriorityQueueImp;
 
 
 public class Datos {
@@ -27,17 +31,22 @@ public class Datos {
                 // Problema con el split, al separar una cancion con varios artistas se corre lo demas, tipo artistas son parte[2,3] si son 2
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
+
                 if (partes[6].equals(pais) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
                     String valor = partes[1];
                     mapaTop.put(clave, valor);
                 }
             }
-            Lista<NodoHash<Integer, String>> listaTop = mapaTop.getNodesAsList(); // Devuelve una linked list ordenada segun la key
-            listaTop.sort();
-            listaTop.limitarElementos(10);
-            for (int i = 0; i<listaTop.size(); i++) {
-                System.out.println(listaTop.get(i).getKey() + " - " + listaTop.get(i).getValue());
+            MyPriorityQueue<NodoHash<Integer, String>> listaTop = mapaTop.getNodesAsPriorityQueue(false); // Devuelve una priority queue ordenada segun la key
+            int size = listaTop.size();
+            if (size >= 10) {
+                size = 10;
+            }
+
+            for (int i = 0; i<size; i++) {
+                NodoHash<Integer, String> elemento = listaTop.dequeue();
+                System.out.println(elemento.getKey() + " - " + elemento.getValue());
             }
 
         } catch (Exception e) {
@@ -66,13 +75,17 @@ public class Datos {
                 }
             }
 
-            Lista<NodoHash<Integer, String>> listaTop = mapaCantidadApariciones.getNodesAsSwapedList();
-            listaTop.sort();
-            listaTop.reverse();
-            listaTop.limitarElementos(5);
-            for (int i = 0; i < listaTop.size(); i++) {
-                System.out.println(listaTop.getNode(i).getValue().getKey() + " - " + listaTop.getNode(i).getValue().getValue());
+            MyPriorityQueue<NodoHash<Integer, String>> listaTop = mapaCantidadApariciones.getNodesAsSwappedPriorityQueue(true); // Devuelve una priority queue ordenada segun la key
+            int size = listaTop.size();
+            if (size >= 10) {
+                size = 10;
             }
+
+            for (int i = 0; i<size; i++) {
+                NodoHash<Integer, String> elemento = listaTop.dequeue();
+                System.out.println(elemento.getKey() + " - " + elemento.getValue());
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -154,15 +167,17 @@ public class Datos {
                 }
             }
 
-            Lista<NodoHash<Integer, String>> listaTop7 = mapaCantidadApariciones.getNodesAsSwapedList(); // Devuelve una linked list ordenada segun la key (EntrySet)
-            // Problema en el sort, sortea(compara) los nodos por el String y no por los Interger
-            listaTop7.sort();
-            listaTop7.reverse();
-            listaTop7.limitarElementos(7);
-            for (int i = 0; i<listaTop7.size(); i++) {
-                System.out.println(listaTop7.get(i).getKey() + " - " + listaTop7.get(i).getValue());
+            MyPriorityQueue<NodoHash<Integer, String>> listaTop7 = mapaCantidadApariciones.getNodesAsSwappedPriorityQueue(true);
+
+            int size = listaTop7.size();
+            if (size >= 7) {
+                size = 7;
             }
-        } catch (IOException e) {
+            for (int i = 0; i<size; i++) {
+                NodoHash<Integer, String> elemento = listaTop7.dequeue();
+                System.out.println(elemento.getKey() + " - " + elemento.getValue());
+            }
+        } catch (IOException | EmptyQueueException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }

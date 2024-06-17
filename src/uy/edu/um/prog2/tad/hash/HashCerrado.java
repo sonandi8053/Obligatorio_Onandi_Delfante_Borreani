@@ -1,8 +1,13 @@
 package uy.edu.um.prog2.tad.hash;
 
 import uy.edu.um.prog2.tad.linkedlist.*;
+import uy.edu.um.prog2.tad.queue.MyPriorityQueue;
+import uy.edu.um.prog2.tad.queue.MyPriorityQueueImp;
 
 import java.lang.Math;
+
+import static java.lang.Math.round;
+
 public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> implements MyHashInterface<K, V> {
     private NodoHash[] tablahash;
     private int size;
@@ -133,23 +138,83 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
         return this.size;
     }
 
-    public Lista<NodoHash<K, V>> getNodesAsList(){
+    public Lista<NodoHash<K, V>> getNodesAsList(boolean reversed){
         Lista<NodoHash<K, V>> temp = new ListaEnlazada<>();
-        for (int i = 0; i<this.capacity; i++){
-            if (this.tablahash[i] != null){
-                temp.add(this.tablahash[i]);
+        if (reversed){
+            for (int i = this.capacity; i>0; i--){
+                if (this.tablahash[i] != null){
+                    temp.add(this.tablahash[i]);
+                }
             }
         }
+        else {
+            for (int i = 0; i<this.capacity; i++){
+                if (this.tablahash[i] != null){
+                    temp.add(this.tablahash[i]);
+                }
+            }
+        }
+
         return temp;
     }
 
-    public Lista<NodoHash<V, K>> getNodesAsSwapedList(){
+    public Lista<NodoHash<V, K>> getNodesAsSwappedList(boolean reversed){
         Lista<NodoHash<V, K>> temp = new ListaEnlazada<>();
-        for (int i = 0; i<this.capacity; i++){
-            if (this.tablahash[i] != null){
-                temp.add(this.tablahash[i].swap());
+        if (reversed){
+            for (int i = this.capacity; i>0; i--){
+                if (this.tablahash[i] != null){
+                    temp.add(this.tablahash[i].swap());
+                }
             }
         }
+        else {
+            for (int i = 0; i<this.capacity; i++){
+                if (this.tablahash[i] != null){
+                    temp.add(this.tablahash[i].swap());
+                }
+            }
+        }
+
+        return temp;
+    }
+
+    public MyPriorityQueue<NodoHash<K, V>> getNodesAsPriorityQueue(boolean reversed){
+        MyPriorityQueue<NodoHash<K, V>> temp = new MyPriorityQueueImp<>();
+        if (reversed){
+            for (int i = this.capacity; i>0; i--){
+                if (this.tablahash[i] != null){
+                    temp.enqueueWithPriority(this.tablahash[i], round(this.hashCode()));
+                }
+            }
+        }
+        else {
+            for (int i = 0; i<this.capacity; i++){
+                if (this.tablahash[i] != null){
+                    temp.enqueueWithPriority(this.tablahash[i], round(this.hashCode()));
+                }
+            }
+        }
+
+        return temp;
+    }
+
+    public MyPriorityQueue<NodoHash<V, K>> getNodesAsSwappedPriorityQueue(boolean reversed){
+        MyPriorityQueue<NodoHash<V, K>> temp = new MyPriorityQueueImp<>();
+        if (reversed){
+            for (int i = this.capacity; i>0; i--){
+                if (this.tablahash[i] != null){
+                    temp.enqueueWithPriority(this.tablahash[i].swap(), round(this.hashCode()));
+                }
+            }
+        }
+        else{
+            for (int i = 0; i<this.capacity; i++){
+                if (this.tablahash[i] != null){
+                    temp.enqueueWithPriority(this.tablahash[i].swap(), round(this.hashCode()));
+                }
+            }
+        }
+
         return temp;
     }
 }
