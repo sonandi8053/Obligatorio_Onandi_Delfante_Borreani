@@ -185,7 +185,7 @@ public class ListaEnlazada<T extends Comparable<T>>
         Nodo<T> temp2;
         for (int i = 0; i< this.size(); i++){
 
-            for (int j = 0; j< this.size() -1; j++){
+            for (int j = 0; j< this.size()-1-i; j++){
                 temp = this.getNode(j);
                 temp2 = temp.getSiguiente();
                 if (temp.getValue().compareTo(temp2.getValue()) > 0){

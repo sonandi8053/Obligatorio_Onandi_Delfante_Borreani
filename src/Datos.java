@@ -25,7 +25,7 @@ public class Datos {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
                 // Problema con el split, al separar una cancion con varios artistas se corre lo demas, tipo artistas son parte[2,3] si son 2
-                partes = linea.split(",\"\"");
+                partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
                 if (partes[6].equals(pais) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
@@ -53,7 +53,7 @@ public class Datos {
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
-                partes = linea.split(",");
+                partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
                 if (partes[7].equals(fecha)) {
                     cancion = partes[1];
@@ -84,7 +84,7 @@ public class Datos {
         try {
             BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
             while ((linea = lector.readLine()) != null) {
-                partes = linea.split(",");
+                partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
                 if (partes[2].equals(artista) && partes[7].equals(fecha)){
                     apariciones+=1;
@@ -108,7 +108,7 @@ public class Datos {
             String linea;
             String[] partes;
             while ((linea = lector.readLine()) != null) {
-                partes = linea.split(",");
+                partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
                 if (partes.length < 24) {
                     // Verificar si hay suficientes elementos en la línea
@@ -183,7 +183,7 @@ public class Datos {
             String linea;
 
             while((linea = lector.readLine()) != null){
-                partes = linea.split(",");
+                partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
                 if (partes.length >= 23){
                     try{
