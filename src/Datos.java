@@ -1,16 +1,13 @@
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EmptyStackException;
 
 import Exceptions.EmptyQueueException;
 import exceptions.FechaInvalida;
+
 import uy.edu.um.prog2.tad.hash.*;
 import uy.edu.um.prog2.tad.linkedlist.Lista;
 import uy.edu.um.prog2.tad.linkedlist.ListaEnlazada;
@@ -22,11 +19,16 @@ public class Datos {
     private BufferedReader lector;
     private String linea;
     private String partes[] = null;
+    private final String ruta;
+
+    public Datos(String ruta){
+        this.ruta = ruta;
+    }
 
     public void top10PaisDado(String pais, String fecha) {
         MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(50);
         try {
-            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
+            BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             while ((linea = lector.readLine()) != null) {
                 // Problema con el split, al separar una cancion con varios artistas se corre lo demas, tipo artistas son parte[2,3] si son 2
                 partes = linea.split(",\"");
@@ -38,6 +40,7 @@ public class Datos {
                     mapaTop.put(clave, valor);
                 }
             }
+
             MyPriorityQueue<NodoHash<Integer, String>> listaTop = mapaTop.getNodesAsPriorityQueue(false); // Devuelve una priority queue ordenada segun la key
             int size = listaTop.size();
             if (size >= 10) {
@@ -60,7 +63,7 @@ public class Datos {
 
         MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
         try {
-            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
+            BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             while ((linea = lector.readLine()) != null) {
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
@@ -95,7 +98,7 @@ public class Datos {
     public Integer cantidadDeVecesQueApareceUnArtistaEnElTop(String artista, String fecha) {
         int apariciones = 0;
         try {
-            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
+            BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             while ((linea = lector.readLine()) != null) {
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
@@ -117,7 +120,7 @@ public class Datos {
 
         MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
         try {
-            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
+            BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             String linea;
             String[] partes;
             while ((linea = lector.readLine()) != null) {
@@ -194,7 +197,7 @@ public class Datos {
         }
 
         try {
-            BufferedReader lector = new BufferedReader(new FileReader("universal_top_spotify_songs.csv"));
+            BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             String linea;
 
             while((linea = lector.readLine()) != null){

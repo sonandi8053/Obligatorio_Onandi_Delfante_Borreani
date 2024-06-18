@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws Exception{
-        Datos datos = new Datos();
+        Datos datos = new Datos("universal_top_spotify_songs.csv"); // RUTA DEL CSV
         Scanner scanner = new Scanner(System.in);
         Opcion opciones = new Opcion();
         int opcion;

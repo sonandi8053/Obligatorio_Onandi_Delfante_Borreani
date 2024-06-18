@@ -5,7 +5,7 @@ import exceptions.MesInvalido;
 import java.util.Scanner;
 
 public class Opcion {
-    Datos datosPrueba = new Datos();
+    Datos datosPrueba = new Datos("universal_top_spotify_songs.csv");
     Scanner scanner = new Scanner(System.in);
 
     private String agregarCeroANumero(String num){
