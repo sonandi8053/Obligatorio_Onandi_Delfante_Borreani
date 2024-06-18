@@ -54,12 +54,12 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
     }
 
     public void resize(){
-        HeapNode<K, T>[] newHeap = new HeapNode[size*2];
+        HeapNode<K, T>[] newHeap = new HeapNode[size*2 +1];
         for (int i = 0; i < size; i++){
             newHeap[i] = this.heap[i];
         }
         this.heap = newHeap;
-        this.size = size*2;
+        this.size = size*2 + 1;
     }
 
 
