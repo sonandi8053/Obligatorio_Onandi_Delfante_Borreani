@@ -73,10 +73,19 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
 
 
     public T delete() {
+        // Catch de size 0
+        if (size == 0){
+            if (heap[0].getKey() == null){
+                return null;
+            }
+            return heap[0].getValue();
+        }
+
         // Se busca el ultimo y se mueve a la raiz
         T valorADevolver = heap[0].getValue();
         heap[0] = heap[size -1];
         size--;
+
         // Se mueve para abajo
         for (int i = 0; i < heap.length;){
             // Se ve que este en dentro del array los hijos
