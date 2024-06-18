@@ -1,43 +1,34 @@
 package uy.edu.um.prog2.tad.heap;
 
-import uy.edu.um.prog2.tad.hash.NodoHash;
-
 public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
     private int size;
     private HeapNode<K, T>[] heap;
     private boolean isMin;
 
-    public HeapImpl(boolean isMin, int size) {
-        this.size = 0;
-        heap = new HeapNode[size];
-        this.isMin = isMin;
-    }
-
     public HeapImpl(boolean isMin) {
-        this(isMin, 3);
-    }
-
-    public HeapImpl(int size) {
-        this(true, size);
+        this.isMin = isMin;
+        this.size = 0;
+        this.heap = new HeapNode[1];
     }
 
     public HeapImpl(boolean isMin, K[] array){
-        this.size = 0;
-        heap = new HeapNode[array.length];
         this.isMin = isMin;
+        this.size = 0;
+        heap = new HeapNode[1];
+
 
         for(int i = 0; i < array.length; i++){
-            this.heap[i] = new HeapNode<K, T>(array[i],null);
+            insert(array[i],null);
         }
-
         orderHeap();
     }
 
-    public HeapImpl(K[] array) {
-        this(true, array);
-    }
-
     public void insert(K key, T value) {
+        if (size == 0) {
+            heap[0] = new HeapNode(key, value);
+            return;
+        }
+
         if (size == heap.length) {
             resize();
         }
@@ -180,7 +171,6 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
          El compare tiene metodo para isMin true and false. De esta forma solo se necesita una impl.
          Cambiar mayor por menor al leer si isMin es false
          */
-
         int hijoIz = 2 * index + 1; // Hijo izquierdo
         int hijoDer = 2 * index + 2; // Hijo derecho
         int menor = index; // Se supone que el valor del index es el minimo (isMin true tipo de heap)
@@ -212,6 +202,4 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
             return key2.compareTo(key1);
         }
     }
-
-
 }
