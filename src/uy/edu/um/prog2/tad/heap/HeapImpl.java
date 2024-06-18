@@ -26,11 +26,12 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
     public void insert(K key, T value) {
         if (size == 0) {
             heap[0] = new HeapNode(key, value);
+            size++;
             return;
         }
 
         if (size == heap.length) {
-            resize();
+            this.resize();
         }
 
         HeapNode<K, T> nodoNuevo = new HeapNode<>(key, value);
@@ -38,10 +39,10 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
         size++;
 
         int ultValor = 0;
-        for (int i = size; i > 0; i = (i-1)/2){
+        for (int i = size -1 ; i > 0; i = (i-1)/2){
             // Se compara con el padre, tiene metodos en este para isMin y !isMin
             if (compare(heap[i].getKey(), heap[(i-1)/2].getKey()) < 0){
-                swap(size,(size-1)/2);
+                swap(i,(i-1)/2);
             }
             else {return;} // Si no pasa no es necesario cambiar ya que mantiene el ordenamiento
              ultValor = i;
@@ -59,7 +60,6 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
             newHeap[i] = this.heap[i];
         }
         this.heap = newHeap;
-        this.size = size*2 + 1;
     }
 
 
