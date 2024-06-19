@@ -5,18 +5,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-import Exceptions.EmptyQueueException;
 import exceptions.FechaInvalida;
-
 import uy.edu.um.prog2.tad.hash.*;
 import uy.edu.um.prog2.tad.heap.Exceptions.EmptyHeapException;
 import uy.edu.um.prog2.tad.heap.Heap;
 import uy.edu.um.prog2.tad.heap.HeapImpl;
 import uy.edu.um.prog2.tad.heap.HeapNode;
-import uy.edu.um.prog2.tad.linkedlist.Lista;
-import uy.edu.um.prog2.tad.linkedlist.ListaEnlazada;
-import uy.edu.um.prog2.tad.queue.MyPriorityQueue;
-import uy.edu.um.prog2.tad.queue.MyPriorityQueueImp;
+
+import static java.lang.Math.round;
 
 
 public class Datos {
@@ -43,8 +39,20 @@ public class Datos {
                     mapaTop.insert(clave, valor);
                 }
             }
-            for (int i = 0; i<10; i++) {
-                System.out.println(mapaTop.getKey() + " - " + mapaTop.getValue());
+
+            // Imprimir los 10 (o los que hayan) paises
+            int size = mapaTop.size();
+            if (size > 10) {
+                size = 10;
+            }
+            else if (size == 0) {
+                System.out.printf("No se ha encontrado ninguna cancion en el codigo pais %s en la fecha %s \n", pais, fecha);
+                return;
+            }
+
+            for (int i = 0; i<size; i++) {
+                HeapNode<Integer, String> nodo = mapaTop.getNode();
+                System.out.println(nodo.getKey() + " - " + nodo.getValue());
                 mapaTop.delete();
             }
 
@@ -76,7 +84,16 @@ public class Datos {
 
             Heap<Integer, String> listaTop = mapaCantidadApariciones.getAsSwappedHeap(false);
 
-            for (int i = 0; i<5; i++) {
+            int size = listaTop.size();
+            if (size > 5) {
+                size = 5;
+            }
+            else if (size == 0) {
+                System.out.printf("No se ha encontrado ninguna cancion en la fecha %s \n", fecha);
+                return;
+            }
+
+            for (int i = 0; i<size; i++) {
                 System.out.println(listaTop.getKey() + " - " + listaTop.getValue());
                 listaTop.delete();
             }
@@ -162,7 +179,15 @@ public class Datos {
             // Transformar a heap
             Heap<Integer, String> listaTop7 = mapaCantidadApariciones.getAsSwappedHeap(false);
 
-            for (int i = 0; i<7; i++) {
+            int size = listaTop7.size();
+            if (size > 7) {
+                size = 7;
+            }
+            else if (size == 0) {
+                System.out.printf("No se ha encontrado ningun artista entre las fechas %s y %s \n", fecha1, fecha2);
+            }
+
+            for (int i = 0; i<size; i++) {
                 System.out.println(listaTop7.getKey() + " - " + listaTop7.getValue());
                 listaTop7.delete();
             }
@@ -193,7 +218,7 @@ public class Datos {
                     try{
                         String tempoString = partes[23];
                         float tempoPartes = Float.parseFloat(tempoString);
-                        if (tempoPartes == tempo){
+                        if (tempoPartes == round(tempo)){
                             num ++;
                         }
                     }
@@ -201,9 +226,6 @@ public class Datos {
                         continue;
                     }
                 }
-
-
-
             }
 
         } catch (IOException e) {

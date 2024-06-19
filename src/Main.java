@@ -21,25 +21,19 @@ public class Main {
 
             switch (opcion){
                 case 1:
-                    datos.top10PaisDado("UY", "2024-03-01");
-                    //opciones.opcion1();
-
+                    opciones.opcion1(datos);
                     break;
                 case 2:
-                    datos.top5CancionesQueMasAparecenEnUnDiaDado("2024-04-30");
-                    //opciones.opcion2();
+                    opciones.opcion2(datos);
                     break;
                 case 3:
-                    //opciones.opcion3();
-                    datos.top7ArtistasQueMasAparecen("2024-03-18","2024-05-13"); // Valores limites "2023-10-18","2024-05-13"
+                    opciones.opcion3(datos); // Valores limites "2023-10-18","2024-05-13" ACA FUNCIONA MEDIO RARO
                     break;
                 case 4:
-                    datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift", "2024-04-07");
-                    //opciones.opcion4();
+                    opciones.opcion4(datos);
                     break;
                 case 5:
-                    //opciones.opcion5();
-                    datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas("2023-03-17","2024-05-27",138.003F);
+                    opciones.opcion5(datos);
                     break;
                 case 6:
                     System.exit(0);
