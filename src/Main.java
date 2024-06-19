@@ -34,7 +34,7 @@ public class Main {
                     datos.top7ArtistasQueMasAparecen("2024-03-18","2024-05-13"); // Valores limites "2023-10-18","2024-05-13"
                     break;
                 case 4:
-                    System.out.println(datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift", "2024-04-07"));
+                    datos.cantidadDeVecesQueApareceUnArtistaEnElTop("Taylor Swift", "2024-04-07");
                     //opciones.opcion4();
                     break;
                 case 5:

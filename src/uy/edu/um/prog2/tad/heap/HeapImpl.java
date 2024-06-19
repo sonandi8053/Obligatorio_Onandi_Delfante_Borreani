@@ -1,5 +1,7 @@
 package uy.edu.um.prog2.tad.heap;
 
+import uy.edu.um.prog2.tad.heap.Exceptions.EmptyHeapException;
+
 public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
     private int size;
     private HeapNode<K, T>[] heap;
@@ -25,12 +27,12 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
 
     public void insert(K key, T value) {
         if (size == 0) {
-            heap[0] = new HeapNode(key, value);
+            heap[0] = new HeapNode<>(key, value);
             size++;
             return;
         }
 
-        if (size == heap.length) {
+        if (size >= heap.length) {
             this.resize();
         }
 
@@ -38,24 +40,20 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
         heap[size] = nodoNuevo;
         size++;
 
-        int ultValor = 0;
-        for (int i = size -1 ; i > 0; i = (i-1)/2){
-            // Se compara con el padre, tiene metodos en este para isMin y !isMin
-            if (compare(heap[i].getKey(), heap[(i-1)/2].getKey()) < 0){
-                swap(i,(i-1)/2);
+        int ultValor = size - 1;
+        while (ultValor > 0) {
+            if (compare(heap[ultValor].getKey(), heap[(ultValor - 1) / 2].getKey()) < 0) {
+                swap(ultValor, (ultValor - 1) / 2);
+                ultValor = (ultValor - 1) / 2;
+            } else {
+                break;
             }
-            else {return;} // Si no pasa no es necesario cambiar ya que mantiene el ordenamiento
-             ultValor = i;
         }
 
-        // Si llega hasta aca, el nodo llego a la posicion 1 o 2
-        if (compare(heap[0].getKey(), heap[ultValor].getKey()) < 0){
-            swap(0,ultValor);
-        }
     }
 
     public void resize(){
-        HeapNode<K, T>[] newHeap = new HeapNode[size*2 +1];
+        HeapNode<K, T>[] newHeap = new HeapNode[size*2 + 1];
         for (int i = 0; i < size; i++){
             newHeap[i] = this.heap[i];
         }
@@ -63,11 +61,11 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
     }
 
 
-    public T delete() {
+    public T delete() throws EmptyHeapException {
         // Catch de size 0
         if (size == 0){
             if (heap[0].getKey() == null){
-                return null;
+                throw new EmptyHeapException();
             }
             return heap[0].getValue();
         }
@@ -75,10 +73,11 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
         // Se busca el ultimo y se mueve a la raiz
         T valorADevolver = heap[0].getValue();
         heap[0] = heap[size -1];
+
         size--;
 
         // Se mueve para abajo
-        for (int i = 0; i < heap.length;){
+        for (int i = 0; i < this.size();i++){
             // Se ve que este en dentro del array los hijos
             if (i*2+1 > heap.length){
                 return valorADevolver;
@@ -120,16 +119,16 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
                     }
                 } else {
                     if (heap[i*2+1] != null) {
-                    // Se revisa si estan ordenados el izquierdo y el padre
-                    int cualEsMayor = compare(heap[i*2+1].getKey(), heap[i].getKey());
-                    switch (cualEsMayor) {
-                        case 1, 0: // Estan bien termina
-                            return valorADevolver;
-                        case -1: // Hay que cambiarlos
-                            swap(i, i * 2 + 1);
-                            i = i * 2 + 1;
-                            break;
-                    }
+                        // Se revisa si estan ordenados el izquierdo y el padre
+                        int cualEsMayor = compare(heap[i*2+1].getKey(), heap[i].getKey());
+                        switch (cualEsMayor) {
+                            case 1, 0: // Estan bien termina
+                                return valorADevolver;
+                            case -1: // Hay que cambiarlos
+                                swap(i, i * 2 + 1);
+                                i = i * 2 + 1;
+                                break;
+                        }
                 }
                 }
             }
@@ -148,11 +147,20 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
             } else {return valorADevolver;} // Los dos son null, es hoja
             }
         }
+
         return null;
     }
 
-    public HeapNode<K,T> get(){
+    public HeapNode<K,T> getNode(){
         return this.heap[0];
+    }
+
+    public T getValue(){
+        return this.heap[0].getValue();
+    }
+
+    public K getKey(){
+        return this.heap[0].getKey();
     }
 
     public int size(){

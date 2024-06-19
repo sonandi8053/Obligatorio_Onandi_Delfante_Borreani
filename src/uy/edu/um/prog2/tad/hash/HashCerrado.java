@@ -1,5 +1,7 @@
 package uy.edu.um.prog2.tad.hash;
 
+import uy.edu.um.prog2.tad.heap.Heap;
+import uy.edu.um.prog2.tad.heap.HeapImpl;
 import uy.edu.um.prog2.tad.linkedlist.*;
 import uy.edu.um.prog2.tad.queue.MyPriorityQueue;
 import uy.edu.um.prog2.tad.queue.MyPriorityQueueImp;
@@ -155,6 +157,28 @@ public class HashCerrado<K extends Comparable<K>, V extends Comparable<V>> imple
             }
         }
 
+        return temp;
+    }
+
+    public Heap<K, V> getAsHeap(boolean isMin){
+        Heap<K, V> temp = new HeapImpl<>(isMin);
+        for (int i = 0; i<this.capacity; i++){
+            NodoHash<K, V> elemento = this.tablahash[i];
+            if (elemento != null){
+                temp.insert(elemento.getKey(), elemento.getValue());
+            }
+        }
+        return temp;
+    }
+
+    public Heap<V, K> getAsSwappedHeap(boolean isMin){
+        Heap<V, K> temp = new HeapImpl<>(isMin);
+        for (int i = 0; i<this.capacity; i++){
+            NodoHash<K, V> elemento = this.tablahash[i];
+            if (elemento != null){
+                temp.insert(elemento.getValue(), elemento.getKey());
+            }
+        }
         return temp;
     }
 

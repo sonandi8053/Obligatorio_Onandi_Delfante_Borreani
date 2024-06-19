@@ -9,6 +9,10 @@ import Exceptions.EmptyQueueException;
 import exceptions.FechaInvalida;
 
 import uy.edu.um.prog2.tad.hash.*;
+import uy.edu.um.prog2.tad.heap.Exceptions.EmptyHeapException;
+import uy.edu.um.prog2.tad.heap.Heap;
+import uy.edu.um.prog2.tad.heap.HeapImpl;
+import uy.edu.um.prog2.tad.heap.HeapNode;
 import uy.edu.um.prog2.tad.linkedlist.Lista;
 import uy.edu.um.prog2.tad.linkedlist.ListaEnlazada;
 import uy.edu.um.prog2.tad.queue.MyPriorityQueue;
@@ -26,30 +30,22 @@ public class Datos {
     }
 
     public void top10PaisDado(String pais, String fecha) {
-        MyHashInterface<Integer,String> mapaTop = new HashCerrado<>(50);
+        Heap<Integer,String> mapaTop = new HeapImpl<>(false);
         try {
             BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             while ((linea = lector.readLine()) != null) {
-                // Problema con el split, al separar una cancion con varios artistas se corre lo demas, tipo artistas son parte[2,3] si son 2
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
 
                 if (partes[6].equals(pais) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
                     String valor = partes[1];
-                    mapaTop.put(clave, valor);
+                    mapaTop.insert(clave, valor);
                 }
             }
-
-            MyPriorityQueue<NodoHash<Integer, String>> listaTop = mapaTop.getNodesAsPriorityQueue(false); // Devuelve una priority queue ordenada segun la key
-            int size = listaTop.size();
-            if (size >= 10) {
-                size = 10;
-            }
-
-            for (int i = 0; i<size; i++) {
-                NodoHash<Integer, String> elemento = listaTop.dequeue();
-                System.out.println(elemento.getKey() + " - " + elemento.getValue());
+            for (int i = 0; i<10; i++) {
+                System.out.println(mapaTop.getKey() + " - " + mapaTop.getValue());
+                mapaTop.delete();
             }
 
         } catch (Exception e) {
@@ -58,7 +54,7 @@ public class Datos {
     }
 
     public void top5CancionesQueMasAparecenEnUnDiaDado(String fecha) {
-        String cancion = null;
+        String cancion;
         int apariciones = 1;
 
         MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
@@ -78,15 +74,11 @@ public class Datos {
                 }
             }
 
-            MyPriorityQueue<NodoHash<Integer, String>> listaTop = mapaCantidadApariciones.getNodesAsSwappedPriorityQueue(true); // Devuelve una priority queue ordenada segun la key
-            int size = listaTop.size();
-            if (size >= 10) {
-                size = 10;
-            }
+            Heap<Integer, String> listaTop = mapaCantidadApariciones.getAsSwappedHeap(false);
 
-            for (int i = 0; i<size; i++) {
-                NodoHash<Integer, String> elemento = listaTop.dequeue();
-                System.out.println(elemento.getKey() + " - " + elemento.getValue());
+            for (int i = 0; i<5; i++) {
+                System.out.println(listaTop.getKey() + " - " + listaTop.getValue());
+                listaTop.delete();
             }
 
         } catch (Exception e) {
@@ -95,8 +87,8 @@ public class Datos {
 
     }
     
-    public Integer cantidadDeVecesQueApareceUnArtistaEnElTop(String artista, String fecha) {
-        int apariciones = 0;
+    public void cantidadDeVecesQueApareceUnArtistaEnElTop(String artista, String fecha) {
+        Integer apariciones = 0;
         try {
             BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             while ((linea = lector.readLine()) != null) {
@@ -109,12 +101,12 @@ public class Datos {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        return apariciones;
+
+        System.out.printf("El artista %s aparece %s veces en el top el dia %s \n", artista, apariciones, fecha);
     }
 
     public void top7ArtistasQueMasAparecen(String fecha1, String fecha2) {
         // Top 7 artistas que mas aparecen en el top 50 en un dia dado
-        int apariciones = 1;
         LocalDate fechaInicio = LocalDate.parse(fecha1);
         LocalDate fechaFin = LocalDate.parse(fecha2);
 
@@ -164,23 +156,17 @@ public class Datos {
                         }
                     }
                 } catch (DateTimeParseException e) {
-                    // Manejar el caso donde partes[7] no es una fecha válida
-                    // No existe una fecha
                     continue;
                 }
             }
+            // Transformar a heap
+            Heap<Integer, String> listaTop7 = mapaCantidadApariciones.getAsSwappedHeap(false);
 
-            MyPriorityQueue<NodoHash<Integer, String>> listaTop7 = mapaCantidadApariciones.getNodesAsSwappedPriorityQueue(true);
-
-            int size = listaTop7.size();
-            if (size >= 7) {
-                size = 7;
+            for (int i = 0; i<7; i++) {
+                System.out.println(listaTop7.getKey() + " - " + listaTop7.getValue());
+                listaTop7.delete();
             }
-            for (int i = 0; i<size; i++) {
-                NodoHash<Integer, String> elemento = listaTop7.dequeue();
-                System.out.println(elemento.getKey() + " - " + elemento.getValue());
-            }
-        } catch (IOException | EmptyQueueException e) {
+        } catch (IOException | EmptyHeapException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
