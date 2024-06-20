@@ -3,7 +3,7 @@ import exceptions.FechaInvalida;
 import java.util.Scanner;
 
 public class Opcion {
-    Scanner scanner = new Scanner(System.in);
+    public Scanner scanner = new Scanner(System.in);
 
     private String agregarCeroANumero(String num){
         if (Integer.parseInt(num) < 10 && Integer.parseInt(num) > 0){
@@ -15,7 +15,7 @@ public class Opcion {
 
     private String ingresarDia() {
         System.out.print("Ingrese el dia: ");
-        String dia = scanner.next();
+        String dia = scanner.nextLine();
 
         dia = this.agregarCeroANumero(dia);
 
@@ -31,7 +31,7 @@ public class Opcion {
 
     private String ingresarMes() {
         System.out.print("Ingrese el numero del mes: ");
-        String mes = scanner.next();
+        String mes = scanner.nextLine();
 
         mes = this.agregarCeroANumero(mes);
 
@@ -46,10 +46,10 @@ public class Opcion {
 
     private String ingresarAnio() {
         System.out.print("Ingrese el año: ");
-        String anio = scanner.next();
+        String anio = scanner.nextLine();
         int num_anio = Integer.parseInt(anio);
 
-        if (num_anio < 2000 || num_anio > 2024){
+        if (num_anio < 2010 || num_anio > 2024){
             System.out.println("Año invalido \n");
             anio = ingresarAnio();
         }
@@ -69,13 +69,14 @@ public class Opcion {
 
     private String ingresarCodigoPais(){
         System.out.print("Ingrese el codigo del pais: ");
-        String codPais = scanner.next();
+        String codPais = scanner.nextLine();
         return codPais;
     }
 
     private String ingresarNombreArtista(){
         System.out.print("Ingrese el nombre del artista: ");
-        String nombreArtista = scanner.next();
+
+        String nombreArtista = scanner.nextLine();
         return nombreArtista;
     }
 
@@ -130,6 +131,8 @@ public class Opcion {
 
         Float tempo = this.ingresarTempo();
 
-        datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(fecha1, fecha2, tempo);
+        Float tempo2 = this.ingresarTempo();
+
+        datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(fecha1, fecha2, tempo, tempo2);
     }
 }

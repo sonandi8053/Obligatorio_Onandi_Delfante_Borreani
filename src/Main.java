@@ -40,6 +40,7 @@ public class Main {
                 default:
                     System.out.println("Opcion Invalida, vuelva a intentarlo.");
             }
+            opciones.scanner = new Scanner(System.in);
         }while (opcion!=6);
     }
 

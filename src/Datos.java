@@ -127,6 +127,10 @@ public class Datos {
         LocalDate fechaInicio = LocalDate.parse(fecha1);
         LocalDate fechaFin = LocalDate.parse(fecha2);
 
+        if (fechaInicio.isAfter(fechaFin)) {
+            return;
+        }
+
         MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
         try {
             BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
@@ -147,7 +151,7 @@ public class Datos {
                 try {
                     LocalDate fechaEstimada = LocalDate.parse(fechaString);
 
-                    if (fechaEstimada.isAfter(fechaInicio) && fechaEstimada.isBefore(fechaFin)) {
+                    if (fechaEstimada.isAfter(fechaInicio.minusDays(1)) && fechaEstimada.isBefore(fechaFin.plusDays(1))) {
                         // Si una celda artista tiene una coma es que hay más que uno.
                         if (partes[2].contains(",")) {
                             String[] listaCantantes = partes[2].split(",");
@@ -196,7 +200,7 @@ public class Datos {
         }
     }
 
-    public void cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(String  fecha1, String fecha2, float tempo) throws FechaInvalida {
+    public void cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(String fecha1, String fecha2, float tempoInicio, float tempoFin) throws FechaInvalida {
         // TEMPO ES LA COLUMNA 23 DE 24 COLUMNAS
         // En un rango de fechas (fecha1 - fecha2)
         LocalDate fechaInicio = LocalDate.parse(fecha1);
@@ -207,6 +211,8 @@ public class Datos {
             throw new FechaInvalida();
         }
 
+        MyHashInterface<String, Integer> mapaCantidadApariciones = new HashCerrado<>(4);
+
         try {
             BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             String linea;
@@ -214,17 +220,25 @@ public class Datos {
             while((linea = lector.readLine()) != null){
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
-                if (partes.length >= 23){
-                    try{
-                        String tempoString = partes[23];
-                        float tempoPartes = Float.parseFloat(tempoString);
-                        if (tempoPartes == round(tempo)){
-                            num ++;
+                try{
+                    if (partes.length >= 23){
+                        LocalDate fechaEstimada = LocalDate.parse(partes[7].trim());
+                        if (fechaEstimada.isAfter(fechaInicio.minusDays(1)) && fechaEstimada.isBefore(fechaFin.plusDays(1))) {
+
+                            String tempoString = partes[23];
+                            float tempoPartes = Float.parseFloat(tempoString);
+                            String cancion = partes[1];
+                            if (!mapaCantidadApariciones.contains(cancion) && (tempoPartes >= tempoInicio && tempoPartes <= tempoFin)) {
+                                mapaCantidadApariciones.put(cancion, 0);
+                                num++;
+
+                            }
+
                         }
                     }
-                    catch (NumberFormatException | ArrayIndexOutOfBoundsException e){
-                        continue;
-                    }
+                }
+                catch (Exception e){
+                    continue;
                 }
             }
 
@@ -239,7 +253,7 @@ public class Datos {
                 }
             }
         }
-        System.out.printf("Entre la fecha %s y %s con el tempo %s hay %s canciones \n", fechaInicio, fechaFin, tempo, num);
+        System.out.printf("Entre la fecha %s y %s hay %s canciones con tempo > %s y < %s \n", fechaInicio, fechaFin, num, tempoInicio, tempoFin);
 
     }
 
