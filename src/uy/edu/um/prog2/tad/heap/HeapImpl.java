@@ -2,7 +2,7 @@ package uy.edu.um.prog2.tad.heap;
 
 import uy.edu.um.prog2.tad.heap.Exceptions.EmptyHeapException;
 
-public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
+public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T> {
     private int size;
     private HeapNode<K, T>[] heap;
     private boolean isMin;
@@ -10,189 +10,89 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
     public HeapImpl(boolean isMin) {
         this.isMin = isMin;
         this.size = 0;
-        this.heap = new HeapNode[1];
+        this.heap = new HeapNode[10]; // Initial size can be adjusted as needed
     }
 
-    public HeapImpl(boolean isMin, K[] array){
+    public HeapImpl(boolean isMin, K[] array) {
         this.isMin = isMin;
-        this.size = 0;
-        heap = new HeapNode[1];
+        this.size = array.length;
+        this.heap = new HeapNode[array.length];
 
-
-        for(int i = 0; i < array.length; i++){
-            insert(array[i],null);
+        // Se insertan los elementos del heap al array
+        for (int i = 0; i < array.length; i++) {
+            heap[i] = new HeapNode<>(array[i], null);
         }
-        orderHeap();
+
+        // Ordenar Heap
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            heapify(i);
+        }
     }
 
     public void insert(K key, T value) {
-        if (size == 0) {
-            heap[0] = new HeapNode<>(key, value);
-            size++;
-            return;
-        }
-
-        if (size >= heap.length) {
-            this.resize();
+        if (size >= heap.length - 1) {
+            resize();
         }
 
         HeapNode<K, T> nodoNuevo = new HeapNode<>(key, value);
         heap[size] = nodoNuevo;
         size++;
 
-        int ultValor = size - 1;
-        while (ultValor > 0) {
-            if (compare(heap[ultValor].getKey(), heap[(ultValor - 1) / 2].getKey()) < 0) {
-                swap(ultValor, (ultValor - 1) / 2);
-                ultValor = (ultValor - 1) / 2;
+        // Vuelve a ordenar
+        int posicion = size - 1;
+        while (posicion > 0) {
+            int posicionPadre = (posicion - 1) / 2;
+            if (compare(heap[posicion].getKey(), heap[posicionPadre].getKey()) < 0) {
+                swap(posicion, posicionPadre);
+                posicion = posicionPadre;
             } else {
                 break;
             }
         }
-
     }
-
-    public void resize(){
-        HeapNode<K, T>[] newHeap = new HeapNode[size*2 + 1];
-        for (int i = 0; i < size; i++){
-            newHeap[i] = this.heap[i];
-        }
-        this.heap = newHeap;
-    }
-
 
     public T delete() throws EmptyHeapException {
-        // Catch de size 0
-        if (size == 0){
-            if (heap[0].getKey() == null){
-                throw new EmptyHeapException();
-            }
-            return heap[0].getValue();
+        if (isEmpty()) {
+            throw new EmptyHeapException("Heap esta vacio");
         }
 
-        // Se busca el ultimo y se mueve a la raiz
-        T valorADevolver = heap[0].getValue();
-        heap[0] = heap[size -1];
-
+        T rootValue = heap[0].getValue();
+        heap[0] = heap[size - 1];
+        heap[size - 1] = null;
         size--;
 
-        // Se mueve para abajo
-        for (int i = 0; i < this.size();i++){
-            // Se ve que este en dentro del array los hijos
-            if (i*2+1 > heap.length){
-                return valorADevolver;
-            }
-
-            //Revisa si el izquierdo no es nulo
-            if (heap[i*2+1] != null){
-                if (heap[i*2+2] != null){ // Revisa el derecho
-                    //Hay que compararlos para ordenar
-                    int cualHijo = compare(heap[i*2+1].getKey(), heap[i*2 +2].getKey());
-                    switch (cualHijo){
-                        case 1: /*
-                            Is min y 1, iz > der, como es min, se cambiaria por el derecho
-                            !isMin y 1 der > iz, como es max, se cambiaria por el derecho
-                            */
-                            int cualEsMayor = compare(heap[i*2+2].getKey(), heap[i].getKey());
-                            switch (cualEsMayor){
-                                case 1, 0: // Estan bien termina
-                                    return valorADevolver;
-                                case -1: // Hay que cambiarlos
-                                    swap(i, i*2+2);
-                                    i = i*2+2;
-                                    break;
-                            }
-                        case 0: // No importa  cual se usa, por defecto el izquierdo
-                        case -1: /*
-                            Is min y -1, iz < der, como es min, se cambiaria por el izquierdo
-                            !isMin y -1 der < iz, como es max, se cambiaria por el izquierdo
-                            */
-                            int cualesMayor = compare(heap[i*2+1].getKey(), heap[i].getKey());
-                            switch (cualesMayor) {
-                                case 1, 0: // Estan bien termina
-                                    return valorADevolver;
-                                case -1: // Hay que cambiarlos
-                                    swap(i, i * 2 + 1);
-                                    i = i * 2 + 1;
-                                    break;
-                                }
-                    }
-                } else {
-                    if (heap[i*2+1] != null) {
-                        // Se revisa si estan ordenados el izquierdo y el padre
-                        int cualEsMayor = compare(heap[i*2+1].getKey(), heap[i].getKey());
-                        switch (cualEsMayor) {
-                            case 1, 0: // Estan bien termina
-                                return valorADevolver;
-                            case -1: // Hay que cambiarlos
-                                swap(i, i * 2 + 1);
-                                i = i * 2 + 1;
-                                break;
-                        }
-                }
-                }
-            }
-            else{
-                if (heap[i*2+2] != null){
-                //Se revisa si estan ordenados
-                int cualEsMayor = compare(heap[i*2+2].getKey(), heap[i].getKey());
-                switch (cualEsMayor){
-                    case 1, 0: // Estan bien termina
-                        return valorADevolver;
-                    case -1: // Hay que cambiarlos
-                        swap(i, i*2+2);
-                        i = i*2+2;
-                        break;
-                }
-            } else {return valorADevolver;} // Los dos son null, es hoja
-            }
+        // Si no se termino de borrar lo ordena
+        if (size > 0) {
+            heapify(0);
         }
 
-        return null;
+        return rootValue;
     }
 
-    public HeapNode<K,T> getNode(){
-        return this.heap[0];
-    }
-
-    public T getValue(){
-        return this.heap[0].getValue();
-    }
-
-    public K getKey(){
-        return this.heap[0].getKey();
-    }
-
-    public int size(){
+    public int size() {
         return size;
     }
 
-    private void orderHeap() {
-        // Para la ordenacion usa la mitad del tamaño, dividiendo por el largo de un solo subarbol (iz. o der.)
-        for (int i = size / 2 - 1; i >= 0; i--) {
-            heapify(i); // Inicida la ordenacion para el ultimo valor
-        }
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     private void heapify(int index) {
-         /*
-         El compare tiene metodo para isMin true and false. De esta forma solo se necesita una impl.
-         Cambiar mayor por menor al leer si isMin es false
-         */
-        int hijoIz = 2 * index + 1; // Hijo izquierdo
-        int hijoDer = 2 * index + 2; // Hijo derecho
-        int menor = index; // Se supone que el valor del index es el minimo (isMin true tipo de heap)
+        int hijoIz = 2 * index + 1;
+        int hijoDer = 2 * index + 2;
+        int Extremo = index; // Mayor o menor depende de isMin
 
-        if (hijoIz < size && compare(heap[hijoIz].getKey(), heap[menor].getKey()) < 0) { // Si la posicion de la izquieda es menor
-            menor = hijoIz; // Se cambia el valor del minimo
-        }
-        if (hijoDer < size && compare(heap[hijoDer].getKey(), heap[menor].getKey()) < 0) { // Si la posicion de la derecha es menor
-            menor = hijoDer; // Se cambia el valor del minimo
+        if (hijoIz < size && compare(heap[hijoIz].getKey(), heap[Extremo].getKey()) < 0) {
+            Extremo = hijoIz;
         }
 
-        if (menor != index) { // Si el padre no es el minimo (No tiene ordenamiento minimo)
-            swap(index, menor); // Los cambia y vuelve a revisar
-            heapify(menor); // Vuelve a revisar
+        if (hijoDer < size && compare(heap[hijoDer].getKey(), heap[Extremo].getKey()) < 0) {
+            Extremo = hijoDer;
+        }
+
+        if (Extremo != index) {
+            swap(index, Extremo);
+            heapify(Extremo);
         }
     }
 
@@ -202,12 +102,37 @@ public class HeapImpl<K extends Comparable<K>, T> implements Heap<K, T>{
         heap[j] = temp;
     }
 
-    private int compare(K key1, K key2) {
-        if (isMin) {
-            return key1.compareTo(key2);
-        } else {
+    private void resize() {
+        int newCapacity = heap.length * 2; //Dobla el largo
+        HeapNode<K, T>[] newHeap = new HeapNode[newCapacity];
+        for (int i = 0; i < heap.length; i++) { // Guarda todos los valores
+            newHeap[i] = heap[i];
+        }
+        heap = newHeap;
+    }
 
-            return key2.compareTo(key1);
+    private int compare(K key1, K key2) {
+        // Compare based on whether it's a min-heap or max-heap
+        if (isMin) {
+            return key1.compareTo(key2); // Si es heap minimo
+        } else {
+            return key2.compareTo(key1); // Si es heap maximo
         }
     }
+
+    @Override
+    public HeapNode<K, T> getNode(){
+        return heap[0];
+    }
+
+    @Override
+    public T getValue(){
+        return heap[0].getValue();
+    }
+
+    @Override
+    public K getKey(){
+        return heap[0].getKey();
+    }
+
 }
