@@ -33,7 +33,7 @@ public class Datos {
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
 
-                if (partes[6].equals(pais) && partes[7].equals(fecha)) {
+                if (partes[6].toUpperCase().equals(pais.toUpperCase()) && partes[7].equals(fecha)) {
                     int clave = Integer.valueOf(partes[3]);
                     String valor = partes[1];
                     mapaTop.insert(clave, valor);
@@ -111,7 +111,8 @@ public class Datos {
             while ((linea = lector.readLine()) != null) {
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
-                if (partes[2].equals(artista) && partes[7].equals(fecha)){
+                String artistaObtenido = partes[2];
+                if (artistaObtenido.toUpperCase().equals(artista.toUpperCase()) && partes[7].equals(fecha)){
                     apariciones+=1;
                 }
             }

@@ -69,7 +69,7 @@ public class Opcion {
 
     private String ingresarCodigoPais(String msg){
         System.out.print(msg);
-        String codPais =  scanner.nextLine().toUpperCase();
+        String codPais =  scanner.nextLine();
         return codPais;
     }
 
