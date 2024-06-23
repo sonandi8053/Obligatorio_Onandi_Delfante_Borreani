@@ -26,7 +26,7 @@ public class Datos {
     }
 
     public void top10PaisDado(String pais, String fecha) {
-        Heap<Integer,String> mapaTop = new HeapImpl<>(false);
+        Heap<Integer,String> mapaTop = new HeapImpl<>(true);
         try {
             BufferedReader lector = new BufferedReader(new FileReader(this.ruta));
             while ((linea = lector.readLine()) != null) {
@@ -111,7 +111,7 @@ public class Datos {
             while ((linea = lector.readLine()) != null) {
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
-                if (partes[2].equals(artista.toUpperCase()) && partes[7].equals(fecha)){
+                if (partes[2].equals(artista) && partes[7].equals(fecha)){
                     apariciones+=1;
                 }
             }

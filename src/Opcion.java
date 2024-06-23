@@ -76,7 +76,7 @@ public class Opcion {
     private String ingresarNombreArtista(String msg){
         System.out.print(msg);
 
-        String nombreArtista = scanner.nextLine().toUpperCase();
+        String nombreArtista = scanner.nextLine();
         return nombreArtista;
     }
 

@@ -32,7 +32,7 @@ public class Main {
                     opciones.opcion2(datos);
                     break;
                 case 3:
-                    opciones.opcion3(datos); // Valores limites "2023-10-18","2024-05-13" ACA FUNCIONA MEDIO RARO
+                    opciones.opcion3(datos); // Valores limites "2023-10-18","2024-05-13"
                     break;
                 case 4:
                     opciones.opcion4(datos);
@@ -54,7 +54,7 @@ public class Main {
             // Convierte la mem a segundos
             double duracionEnSegundos = duration / 1_000_000_000.0F;
 
-            System.out.println("El método fue ejecutado en: " + duracionEnSegundos + " ms");
+            System.out.println("El método fue ejecutado en: " + duracionEnSegundos + "S");
 
         }while (opcion!=6);
     }
