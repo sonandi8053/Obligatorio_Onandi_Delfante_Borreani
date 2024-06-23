@@ -1,5 +1,5 @@
 # Obligatorio_Onandi_Delfante
-Obligatorio Programación 2 2024 de Santiago Onandi y Eduardo Delfante
+Obligatorio Programación 2 2024 de Santiago Onandi, Eduardo Delfante y Ignacio Borreani.
 
 Para la funcionamiento de las funciones se utiliza una interfaz donde se inputa un numero para decidir que funcion se va a usar. a partir de aca se va a la clase funciones, que hace que se inpute la informacion necesaria para la consulta antes de efectuarla. Todas las consultas inician cargando los datos del archivo, separandolo en lineas y a esas lineas arrglandolas para la ejecucion del programa, separandolas en un array. Se intento hacer este proceso una vez iniciado el programa y de esta forma reducir el tiempo de ejecucion de todas las funciones, dado que no necesitaria repetir este paso, pero por problemas al implementarlos se decidio dejar de esta forma.
 
