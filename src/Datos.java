@@ -111,7 +111,7 @@ public class Datos {
             while ((linea = lector.readLine()) != null) {
                 partes = linea.split(",\"");
                 this.eliminarComillasDeListaVacia(partes);
-                if (partes[2].equals(artista) && partes[7].equals(fecha)){
+                if (partes[2].equals(artista.toUpperCase()) && partes[7].equals(fecha)){
                     apariciones+=1;
                 }
             }
@@ -227,9 +227,9 @@ public class Datos {
 
                             String tempoString = partes[23];
                             float tempoPartes = Float.parseFloat(tempoString);
-                            String cancion = partes[1];
-                            if (!mapaCantidadApariciones.contains(cancion) && (tempoPartes >= tempoInicio && tempoPartes <= tempoFin)) {
-                                mapaCantidadApariciones.put(cancion, 0);
+                            String idCancion = partes[0]; // obtiene la id
+                            if (!mapaCantidadApariciones.contains(idCancion) && (tempoPartes >= tempoInicio && tempoPartes <= tempoFin)) {
+                                mapaCantidadApariciones.put(idCancion, 0);
                                 num++;
 
                             }

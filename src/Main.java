@@ -18,6 +18,11 @@ public class Main {
             System.out.print("--> ");
             opcion = scanner.nextInt();
 
+            // Capturar memoria actual
+            Runtime.getRuntime().gc();
+            // Capturar la memoria utilizada antes de ejecutar el método
+            long memAntes = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            long tiempoInicio = System.nanoTime();
 
             switch (opcion){
                 case 1:
@@ -41,6 +46,16 @@ public class Main {
                     System.out.println("Opcion Invalida, vuelva a intentarlo.");
             }
             opciones.scanner = new Scanner(System.in);
+
+            long endTime = System.nanoTime();
+
+            long duration = endTime - tiempoInicio;
+
+            // Convierte la mem a segundos
+            double duracionEnSegundos = duration / 1_000_000_000.0F;
+
+            System.out.println("El método fue ejecutado en: " + duracionEnSegundos + " ms");
+
         }while (opcion!=6);
     }
 

@@ -13,8 +13,8 @@ public class Opcion {
         return num;
     }
 
-    private String ingresarDia() {
-        System.out.print("Ingrese el dia: ");
+    private String ingresarDia(String msg) {
+        System.out.print(msg);
         String dia = scanner.nextLine();
 
         dia = this.agregarCeroANumero(dia);
@@ -23,14 +23,14 @@ public class Opcion {
 
         if (diaInt < 0 || diaInt > 31){
             System.out.println("Dia Invalido \n");
-            dia = ingresarDia();
+            dia = ingresarDia(msg);
         }
 
         return dia;
     }
 
-    private String ingresarMes() {
-        System.out.print("Ingrese el numero del mes: ");
+    private String ingresarMes(String msg) {
+        System.out.print(msg);
         String mes = scanner.nextLine();
 
         mes = this.agregarCeroANumero(mes);
@@ -38,56 +38,56 @@ public class Opcion {
         int mesInt = Integer.parseInt(mes);
         if (mesInt < 0 || mesInt > 12){
             System.out.println("Mes Invalido \n");
-            mes = ingresarMes();
+            mes = ingresarMes(msg);
         }
 
         return mes;
     }
 
-    private String ingresarAnio() {
-        System.out.print("Ingrese el año: ");
+    private String ingresarAnio(String msg) {
+        System.out.print(msg);
         String anio = scanner.nextLine();
         int num_anio = Integer.parseInt(anio);
 
         if (num_anio < 2010 || num_anio > 2024){
             System.out.println("Año invalido \n");
-            anio = ingresarAnio();
+            anio = ingresarAnio(msg);
         }
         return anio;
     }
 
     private String ingresarFecha() {
 
-        String dia = ingresarDia();
+        String dia = ingresarDia("Ingrese el dia: ");
 
-        String mes = ingresarMes();
+        String mes = ingresarMes("Ingrese el mes: ");
 
-        String anio = ingresarAnio();
+        String anio = ingresarAnio("Ingrese el año: ");
 
         return anio + "-" + mes + "-" + dia;
     }
 
-    private String ingresarCodigoPais(){
-        System.out.print("Ingrese el codigo del pais: ");
-        String codPais = scanner.nextLine();
+    private String ingresarCodigoPais(String msg){
+        System.out.print(msg);
+        String codPais =  scanner.nextLine().toUpperCase();
         return codPais;
     }
 
-    private String ingresarNombreArtista(){
-        System.out.print("Ingrese el nombre del artista: ");
+    private String ingresarNombreArtista(String msg){
+        System.out.print(msg);
 
-        String nombreArtista = scanner.nextLine();
+        String nombreArtista = scanner.nextLine().toUpperCase();
         return nombreArtista;
     }
 
-    private Float ingresarTempo(){
-        System.out.print("Ingrese el tempo: ");
+    private Float ingresarTempo(String msg){
+        System.out.print(msg);
         Float tempo = scanner.nextFloat();
         return tempo;
     }
 
     public void opcion1(Datos datos){
-        String codPais = this.ingresarCodigoPais();
+        String codPais = this.ingresarCodigoPais("Ingrese el codigo del pais: ");
 
         String fecha = this.ingresarFecha();
 
@@ -97,8 +97,6 @@ public class Opcion {
     public void opcion2(Datos datos){
 
         String fecha = this.ingresarFecha();
-        // "2024-04-30"
-        System.out.println(fecha);
 
         datos.top5CancionesQueMasAparecenEnUnDiaDado(fecha);
     }
@@ -114,7 +112,7 @@ public class Opcion {
     }
 
     public void opcion4(Datos datos){
-        String artista = this.ingresarNombreArtista();
+        String artista = this.ingresarNombreArtista("Ingrese el nombre del artista: ");
 
         String fecha = this.ingresarFecha();
 
@@ -129,9 +127,9 @@ public class Opcion {
         System.out.println("Ingrese la segunda fecha");
         String fecha2 = this.ingresarFecha();
 
-        Float tempo = this.ingresarTempo();
+        Float tempo = this.ingresarTempo("Ingrese el tempo minimo: ");
 
-        Float tempo2 = this.ingresarTempo();
+        Float tempo2 = this.ingresarTempo("Ingrese el tempo maximo: ");
 
         datos.cantidadDeCancionesConUnTempoEnUnRangoEspecificoParaUnRangoEspecificoDeFechas(fecha1, fecha2, tempo, tempo2);
     }
