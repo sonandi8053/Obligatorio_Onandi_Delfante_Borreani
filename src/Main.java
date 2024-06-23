@@ -54,7 +54,7 @@ public class Main {
             // Convierte la mem a segundos
             double duracionEnSegundos = duration / 1_000_000_000.0F;
 
-            System.out.println("El método fue ejecutado en: " + duracionEnSegundos + "S");
+            System.out.println("El método fue ejecutado en: " + duracionEnSegundos + " S");
 
         }while (opcion!=6);
     }
